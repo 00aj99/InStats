@@ -1,0 +1,39 @@
+<!-- ADD THIS CODE TO BODY TAG -->
+<script type="text/javascript">
+	
+	// InStats v1
+	// @yasinkuyu, 2016
+	
+	var d = new Date();
+	var s = d.getSeconds();
+	var m = d.getMinutes();
+	var x = s * m;
+	var f = '' + escape(document.referrer);
+	var j = navigator.javaEnabled();
+	
+	if (navigator.appName == 'Netscape') {
+		b = 'NS';
+	}
+	if (navigator.appName == 'Microsoft Internet Explorer') {
+		b = 'MSIE';
+	}
+	if (navigator.appVersion.indexOf('MSIE 3') > 0) {
+		b = 'MSIE';
+	}
+	
+	u = '' + escape(document.URL);
+	w = screen.width;
+	h = screen.height;
+	v = navigator.appName;
+	fs = window.screen.fontSmoothingEnabled;
+	
+	if (v != 'Netscape') {
+		c = screen.colorDepth;
+	} else {
+		c = screen.pixelDepth;
+	}
+	
+	var info = 'w=' + w + '&h=' + h + '&c=' + c + '&r=' + f + '&u=' + u + '&fs=' + fs + '&b=' + b + '&x=' + x;
+	document.write('<img src="/count?' + info + '" width="90" height="30" border="0">');
+
+</script>

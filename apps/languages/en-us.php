@@ -1,0 +1,175 @@
+<?php
+
+$lang = array();
+
+$lang['lang'] = "en-us";
+$lang['lang_name'] = "English";
+
+// Global
+$lang['reports'] = "Reports";
+$lang['stats'] = "İstatistikler";
+$lang['summary'] = "Summary";
+$lang['referers'] = "Referers";
+$lang['status'] = "Status";
+$lang['back'] = "Back to Previous Page";
+$lang['path'] = "Path";
+$lang['date'] = "Date";
+$lang['time'] = "Time";
+$lang['hour'] = "Saat";
+$lang['year'] = "Year";
+$lang['month'] = "Month";
+$lang['day'] = "Day";
+$lang['week'] = "Hafta";
+
+// Reports
+$lang['page_views'] = "Page Views";
+$lang['visitor'] = "Visitor";
+$lang['visitors'] = "Visitors";
+$lang['today'] = "Today";
+$lang['yesterday'] = "Yesterday";
+$lang['top_day'] = "Top Day";
+$lang['detail_stats'] = "Detailed Statistics";
+$lang['detail_reports'] = "detailed reports";
+$lang['detail_reports_text'] = "to see the statistics about Browsers, Resolutions, Colors, Operating Systems Pages and Referers";
+$lang['admin'] = "Admin";
+$lang['admin_page'] = "Admin Page";
+$lang['view'] = "View";
+$lang['page_views_ap'] = "page views for all pages";
+$lang['report_ref'] = "all referers";
+$lang['reportpathy'] = "time specific page views";
+$lang['report_ips'] = " click paths (IP addresses)";
+$lang['graphs'] = "Graphs";
+$lang['graphs_hour'] = "Page Views and Visitors by Hour";
+$lang['graphs_dow'] = "Page Views and Visitors by Day of Week";
+$lang['graphs_dom'] = "Page Views and Visitors by Day of Month";
+$lang['graphs_week'] = "Page Views and Visitors by Week of Year";
+$lang['graphs_month'] = "Page Views and Visitors by Month";
+$lang['graphs_year'] = "Page Views and Visitors by Year";
+$lang['weekdays'] = "Mon, Tue, Wed, Thu, Fri, Sat, Sun";
+$lang['months'] = "January,February,March,April,May,June,July,August,September,October,November,December";
+$lang['go'] = "Go";
+
+// Year reports
+$lang['year_stats'] = "Yearly Page Views & Unique Visitors";
+$lang['daily_reports'] = "Günlük Sayfa Gösterimleri &amp; Ziyaretçiler";
+
+$lang['yearly'] = "Yearly Reports";
+$lang['monthly'] = "Monhly Reports";
+$lang['daily'] = "Daily Reports";
+$lang["top_ten_page"] = "Top 10 Page";
+$lang["top_ten_ref"] = "Top 10 Referers";
+$lang["browsers"] = "Browsers";
+$lang["resolutions"] = "Resolutions";
+$lang["colors"] = "Renkler";
+$lang["oses"] = "İşletim Sistemleri";
+
+$lang['view_hourly'] = "Hourly Report";
+$lang['view_hour'] = "Views by Hour";
+$lang['view_year_weekly'] = "Yılın Haftasına Göre Rapor";
+$lang['view_weekly'] = "Haftanın Gününe Göre Rapor";
+$lang['view_week'] = "Haftanın Gününe Göre";
+$lang['view_daily'] = "Ayın Gününe Göre Rapor";
+$lang['view_day'] = "Ayın Gününe Göre";
+$lang['view_monthly'] = "Aylık Rapor";
+$lang['view_month'] = "Aya Göre";
+$lang['view_year_week'] = "Yılın Haftasına Göre";
+$lang['view_yearly'] = "Yıllık Rapor";
+$lang['view_year'] = "Yıla Göre";
+$lang['data_display'] = "Displaying Data For";
+
+$lang["PathName"] = "Path Name";
+$lang["RefName"] = "Referer Name";
+$lang["BrowserName"] = "Browser Adı";
+$lang["ResName"] = "Resolutions Name";
+$lang["ColorName"] = "Color Name";
+$lang["OsName"] = "OS Name";
+$lang["Total"] = "Total";
+
+$lang['all_pages'] = "All Pages";
+$lang['all_referers'] = "All Referers";
+$lang['all_datas'] = "All Datas";
+
+$lang['visitor_reports'] = "Visitor Reports";
+$lang['select'] = "Select";
+
+$lang["ask_question"] = "Ask Question";
+$lang["error_report"] = "Error Report";
+$lang["suggest_feature"] = "Suggest Feature";
+$lang["suggest_site"] = "Suggest Site";
+
+
+// Admin
+
+$lang["update_successfully"] = "Settings updated!";
+$lang["update_settings"] = "Update Settings";
+$lang["return_reports"] = "Back to Report";
+$lang["return_admin"] = "Back to Admin";
+$lang["feature"] = "Feature";
+$lang["setting"] = "Option";
+$lang["desc"] = "Decription";
+$lang["on"] = "On";
+$lang["off"] = "Off";
+
+$lang["image_location"] = "Image Location";
+$lang["image_location_desc"] = "sImageLocation constant defines the location of the image used by InStats.";
+
+$lang["filter_ips"] = "Filtre IP'ler";
+$lang["filter_ips_desc"] = "sFilterIps constant defines IP addresses to filter from stats <br />
+reported by InStats. This is useful for webmasters that do <br />
+not want their own activity reported in reports.<br />
+List IPs separated by commas!";
+
+$lang["show_links"] = "Show Links";
+$lang["show_links_desc"] = "Show links in reports as active links.<br />
+If true, if a link is shown in a report, it can be clicked<br />
+and the browser will display the referring page or viewed page.";
+
+$lang["count_own_server"] = "Count Own Server";
+$lang["count_own_server_desc"] = "Count your own server as referer?
+If true, the click generated from your
+own site will be counted as referers as well.";
+
+$lang["strip_params"] = "Strip PathName Parameters";
+$lang["strip_params_desc"] = "	Strip off the parameters from the path name?<br />
+If on:<br />
+http://www.insya.com/index.asp?id=2&cid=4 is stripped to<br />
+http://www.insya.com/index.asp";
+
+$lang["strip_protocol"] = "Strip PathName Protocol";
+$lang["strip_protocol_desc"] = "Strip off the protocol from the path name?<br />
+If on:<br />
+http://www.insya.com/index.asp?id=2&cid4 is stripped to<br />
+insya.com/index.asp?id=2&cid4
+";
+
+$lang["strip_ref_params"] = "Strip Referer Parameters";
+$lang["strip_ref_params_desc"] = "Strip off the parameters from the referer name?<br />
+If on:<br />
+http://www.microsoft.com/go.asp?linkid=6 is stripped to<br />
+http://www.microsoft.com/go.asp
+";
+
+$lang["strip_ref_protocol"] = "Strip Referer Protocol";
+$lang["strip_ref_protocol_desc"] = "Strip off the protocol from the referer name?<br />
+If on:<br />
+http://www.microsoft.com/go.asp?linkid=6 is stripped to<br />
+microsoft.com/go.asp?linkid=6
+";
+
+$lang["ref_file"] = "Strip Path&File Referer";
+$lang["ref_file_desc"] = "Strip off the path and file name from the referer name?<br />
+If on:<br />
+http://www.microsoft.com/go.asp?linkid=6 is stripped to<br />
+http://www.microsoft.com
+";
+
+$lang["language"] = "Language";
+$lang["language_desc"] = "Select display language.";
+
+$lang["clear_data"] = "Clear data";
+$lang["clear_data_msg"] = "Are you sure? ";
+$lang["clear_data_desc"] = "ATTENTION: all statistics will be deleted.";
+$lang["clear_data_success"] = "All statistic data is reset.";
+
+$lang["save"] = "Save";
+$lang["back"] = "Back";

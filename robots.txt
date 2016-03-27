@@ -1,0 +1,7 @@
+User-agent: *
+
+Allow: /
+
+Disallow: /search?query=
+Disallow: /report
+Disallow: /frame

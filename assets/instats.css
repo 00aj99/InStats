@@ -1,0 +1,38 @@
+/*
+	Instats v1
+	@yasinkuyu, 2016
+*/
+
+body  { font-size: x-small; font-family : Verdana; color : #8b4513; }
+a {line-height:15px; font-weight:bold; font-family: Arial; font-size: 11px;}
+a:hover {color:red;}
+
+.data  { font-size: x-small; color: #8b4513; }
+.title,
+.title a  { font-weight: bold; font-size: small; color: #ff0000; text-decoration: none; }
+.smallertext { font-size : x-small; color : #8b0000; }
+.smallerheader { font-weight: bold; font-size : x-small; color : #8b4513; background: #ffe4b5; }
+.datetable a {display:block; padding-left:7px;}
+.datetable a:hover {color:red;background:yellow;}
+.titlebg { background:#ffe4b5; }
+.listbg { background:#fffaf0; }
+.summary { width: 300px; background: #ffe4b5; border:1px solid #8b4513; }
+.summary td{ border-bottom:1px solid #ffe4b5; padding: 2px 8px 2px 8px; }
+.summary td{ border-left:1px solid #ffe4b5; }
+.summary a {display:block; line-height:15px; font-weight:bold; font-family: Arial; font-size: 10px;}
+.summary a:hover {color:red;}
+.callendar { width: 300px; background: #ffe4b5; border:1px solid #8b4513; }
+.callendar td{ border-bottom:1px solid #ffe4b5; padding: 2px 8px 2px 6px; }
+.callendar td{ border-left:1px solid #ffe4b5; }
+.callendar td:first-child{ border-left:none; }
+
+.list { background: #ffe4b5; border:1px solid #8b4513; }
+.list td{ border-bottom:1px solid #ffe4b5; padding: 2px 8px 2px 8px; }
+.list td{ border-left:1px solid #ffe4b5; }
+.list a { line-height:15px; font-weight:bold; font-family: Arial; font-size: 10px;}
+.list a:hover {color:red;}
+
+.install strong { display: inline-block; width: 70px;}
+td { font-size : x-small; color : #8b4513; padding:2px 0;}
+select {COLOR:#8b4513; FONT-WEIGHT: bold; font-family: Arial,Helvetica,Sans-serif; list-style-type: none; list-style-position: inside;}
+input {COLOR:#8b4513; FONT-WEIGHT: bold; font-family: Arial,Helvetica,Sans-serif;}

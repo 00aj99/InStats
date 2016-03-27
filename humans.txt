@@ -1,0 +1,18 @@
+ 
+/* COMPANY */
+	Name: İnsya Bilişim Teknolojileri
+	Email: info@insya.com
+	From:Corlu, Tekirdag, Turkey
+
+/* TEAM */
+	Developer: Yasin Kuyu
+	Twitter: @yasinkuyu
+	From:Corlu, Tekirdag, Turkey
+
+/* SITE */
+	Create Data:2015/02/27
+	Language: Turkish / English
+	Doctype:HTML5
+	IDE: Notepad++, WinSCP, Photoshop, Illustrator, Grunt
+	TECH: HTML5, CSS, JS, PHP, Flight Framework, MariaSQL
+	
