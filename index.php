@@ -118,9 +118,6 @@ Flight::route('/import', function(){
 		foreach ($file as $line)
 		{
 			
-			if(!startsWith($line))  
-			   echo $line;
-				
 			// Skip comment
 			if (substr($line, 0, 2) == '--' || $line == '' || $line == '#')
 				continue;
@@ -144,28 +141,14 @@ Flight::route('/import', function(){
 });
 	
 Flight::route('(/@lang:[a-z])(/@slug)', function($lang, $slug){
-	global $db;
-/*
-echo  "lang:" . $lang . "<br>";
-echo  "slug:" . $slug; die();
-			
 	
-	// Set default language
-	if( $lang == "" && !isset($_COOKIE['inlang'])){
-		
-		// Set cookie current language
-		setcookie("inlang", "en-us");
-	}
+	global $db;
+ 
+	$lang = LANGUAGE;
 	
 	// Check url defined paramater
-	if( $lang != "" || in_array($lang, Flight::get('possible_languages'))){
-		
-		// Cookie store current language
-		setcookie("inlang", $lang);
+	if(in_array($lang, Flight::get('possible_languages'))){
 	}
-	 */
-	// Read and set language parameter
-	$lang = LANGUAGE;
 	
 	// Check language support languages
 	$language = languageDetect($lang);		
