@@ -1,12 +1,16 @@
-
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+ 
 function SQLTable($sTitle, $sSQL, $lang)
 {
 	global $db;
 	$result = $db->query($sSQL);
 	 
 ?>
-		<table border="0" cellspacing="1" cellpadding="2" class="titlebg" width="600">
+		<table border="0" cellspacing="1" cellpadding="2" class="titlebg list" width="600">
 			<tr>
 				<td class="smallerheader titlebg" width="10">»</td>
 				<td class="smallerheader titlebg" ><?=$sTitle?></td>
@@ -72,15 +76,15 @@ function SQLTable($sTitle, $sSQL, $lang)
 <?php } ?>
 
 <?php
-	SQLTable("En çok ziyaret alan 10 sayfa", "SELECT PathName, Total FROM Paths ORDER BY Total DESC LIMIT 10", $lang);
-	SQLTable("En çok ziyaretçi gönderen 10 sayfa", "SELECT RefName, Total FROM Refs ORDER BY Total DESC LIMIT 10", $lang);
-	SQLTable("Tarayıcılar", "SELECT BrowserName, Total FROM Browsers ORDER BY Total DESC", $lang);
-	SQLTable("Çözünürlükler", "SELECT ResName, Total FROM Resolutions ORDER BY Total DESC", $lang);
-	SQLTable("Renkler", "SELECT ColorName, Total FROM Colors ORDER BY Total DESC", $lang);
-	SQLTable("İşletim Sistemleri", "SELECT OsName, Total FROM OSes ORDER BY Total DESC", $lang);
+	SQLTable($lang["top_ten_page"], "SELECT PathName, Total FROM Paths ORDER BY Total DESC LIMIT 10", $lang);
+	SQLTable($lang["top_ten_ref"], "SELECT RefName, Total FROM Refs ORDER BY Total DESC LIMIT 10", $lang);
+	SQLTable($lang["browsers"], "SELECT BrowserName, Total FROM Browsers ORDER BY Total DESC", $lang);
+	SQLTable($lang["resolutions"], "SELECT ResName, Total FROM Resolutions ORDER BY Total DESC", $lang);
+	SQLTable($lang["colors"], "SELECT ColorName, Total FROM Colors ORDER BY Total DESC", $lang);
+	SQLTable($lang["oses"], "SELECT OsName, Total FROM OSes ORDER BY Total DESC", $lang);
 ?>
 
-<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="reportd"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
 » <?=$lang["view"]; ?> <a href="reportpath"><?=$lang["page_views_ap"]; ?></a>.<br />
@@ -90,7 +94,7 @@ function SQLTable($sTitle, $sSQL, $lang)
 </p>
 
 
-<p class="title"><?=$lang["graphs"]; ?>  (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?>  (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />

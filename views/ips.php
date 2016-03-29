@@ -1,4 +1,14 @@
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
+
+<hr size="1" color="#C0C0C0" noshade>
+<br />
+ 
+<?php
 
 function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )   
 {
@@ -28,6 +38,7 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 	}
 
 ?>   
+ 
 <table cellspacing="0" cellpadding="0" class="titlebg list">
 	<tr>
 	   <td class="titlebg" width="10">»</td>
@@ -121,6 +132,7 @@ function ShowClickPath( $sIp, $lYear, $lMonth, $lDay, $lHour, $lang )
 	$paths = $db->query($sSQL)->fetchAll();
 	
 ?>   
+
 <table cellspacing="0" cellpadding="0" class="titlebg list">
 	<tr>
 	   <td class="titlebg" width="10">»</td>
@@ -174,7 +186,7 @@ function GetDates($lang)
    endif;
    
    if( strlen($return) === 0 ) :  
-      return $lang["all_datas"];
+      return $lang["all_data"];
    endif;
    
    return $return;
@@ -189,8 +201,7 @@ $sHour = request("hour");
 ?>
 » <a href="/reports"><?=$lang["reports"]; ?></a> » <a href="/reportpathy"><?=$lang["yearly"]; ?></a> 
 » <a href="/reportpathm?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
-» <a href="/reportpathd?year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["daily"]; ?></a> 
-<br /><br />
+» <a href="/ips?year=<?=$sYear;?>"><?=$lang["daily"]; ?></a> 
 
 <?php if ( $sIp != "" ) : ?>   
       » <a href="ips?year=<?=$sYear;?>&month=<?=$sMonth;?>&day=<?=$sDay;?>"><?=$lang["visitor_reports"]; ?></a> » <?=$lang["select"]; ?>

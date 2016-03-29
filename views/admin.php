@@ -1,7 +1,13 @@
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
 
 if (request("method") == "change") :
 
+	$force_login = isset($_POST["ForceLogin"]) ? 1 : 0;
+	
 	$strSql = "UPDATE Config "; 
 	$strSql .= "SET C_IMAGELOC = '" . request('ImageLocation') . "'"; 
 	$strSql .= ",   C_FilterIP = '" . request('FilterIPs') . "'";
@@ -12,8 +18,9 @@ if (request("method") == "change") :
 	$strSql .= ",   C_StripRefParameters = " . request('RefParameters');
 	$strSql .= ",   C_StripRefProtocol = " . request('RefProtocol');
 	$strSql .= ",   C_StripRefFile = " . request('RefFile');
+	$strSql .= ",   ForceLogin = " . $force_login;
 	$strSql .= ",   Language = '" . request('Language') ."'";
-	$strSql .= " WHERE ID = " . 1;
+	$strSql .= " WHERE ID = 1";
 	
 	global $db;
 
@@ -29,7 +36,7 @@ if (request("method") == "change") :
 		
 		echo '<script type="text/javascript">alert("'. $lang["clear_data_success"]. '"); </script>';
 	}
-	
+
 	$result = $db->query($strSql);
 
 ?>
@@ -55,6 +62,7 @@ if (request("method") == "change") :
 <?php else : ?>
 
 <hr size="1" color="#C0C0C0" noshade>
+<br />
 <p class="title"><?=$lang["admin"];?>:</p>
 
 <form action="admin" method="post">
@@ -190,6 +198,15 @@ if (request("method") == "change") :
 		</td>
 	</tr>
 	<tr>
+		<td align="middle" class="smallerheader"><?=$lang["force_login"]; ?></td>
+		<td align="middle" class="smallerheader">
+		<input type="checkbox" class="checkbox" name="ForceLogin" <?=FORCELOGIN ? "checked" : ""; ?>/> 
+    	</td>
+		<td align="left" class="smallerheader">	
+		<?=$lang["force_login_desc"]; ?> 
+		</td>
+	</tr>
+	<tr>
 		<td align="middle" class="smallerheader" colspan="3">
 			<br />
 			<input type="hidden" value="change" name="method" id="hidden">
@@ -202,7 +219,7 @@ if (request("method") == "change") :
 </form>
 </table>
  
-<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="reportd"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
 » <?=$lang["view"]; ?> <a href="reportpath"><?=$lang["page_views_ap"]; ?></a>.<br />
@@ -211,7 +228,7 @@ if (request("method") == "change") :
 » <?=$lang["view"]; ?> <a href="ips"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />

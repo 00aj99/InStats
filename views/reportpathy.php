@@ -1,3 +1,14 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
+<hr size="1" color="#C0C0C0" noshade>
+<br />
+» <a href="/reports"><?=$lang["reports"];?></a> » <?=$lang["referers"];?>
+» <?=$lang["yearly"]; ?>
+<br /><br />
 
 <table border="0" cellspacing="1" cellpadding="2" class="titlebg list">
 	<tr>
@@ -8,7 +19,7 @@
 	<tr>
 		<td class="listbg" width="10"></td>
 		<td class="smallerheader listbg" width="80"><?=$lang["year"];?></td>
-		<td class="smallerheader listbg" width="90" align="right"><?=$lang["page_view"];?></td>
+		<td class="smallerheader listbg" width="90" align="right"><?=$lang["page_views"];?></td>
 		<td class="smallerheader listbg" width="90" align="right"><?=$lang["visitors"];?></td>
 		<td class="listbg" width="10"></td>
 	</tr>
@@ -38,12 +49,12 @@
 	<?php } ?>
 </table>
 
-<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="ips"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />

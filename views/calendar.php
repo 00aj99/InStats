@@ -3,7 +3,7 @@
   $mMonth = request("month");
   $yYear =  request("year");
   
-  if ($mMonth === "" ) $mMonth = date("m");
+  if ($mMonth === "" ) $mMonth = date("n"); // date("m") : 01, date("n") : 1
   if ($yYear === "" ) $yYear = date("Y"); 
 
 function DisplayCalendar($month,$year, $lang){
@@ -39,8 +39,8 @@ function DisplayCalendar($month,$year, $lang){
 	
 		$CellStr = '&nbsp;';
 		$CellColor = '#fdf5e6';
-
-		if ($current_day == date("j")) $CellColor="Yellow";
+		
+		if ($current_day == date("d")) $CellColor="Yellow"; 
 		
 		$CellStr = '<span class="smallertext datetable"><a href="reportpathdd?year=' . $year . '&month=' . $month . '&day=' . $current_day . '">' . $current_day . '</a></span>';
 			
@@ -97,7 +97,6 @@ function MonthCombo($lang){
   for($i=0; $i < 12; $i++) {
 	
 	$num = ($i+1);
-	
 	$selected = $mMonth == $num ? 'selected="selected"' : '';
 
 	echo '<option '. $selected .' value='. $num .'>'. $months[$i] .'</option>';
@@ -116,8 +115,8 @@ function YearCombo(){
   for( $i = 2016 ; $i <= 2034; $i++ ) {
 
 	$selected = $mYear == $i ? 'selected="selected"' : '';
-
     echo  '<option '. $selected .' value="'. $i .'">'. $i .'</option>';
+	
   }
   echo '</select>';
 }

@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.5-10.1.9-MariaDB)
-# Date: 2016-03-27 23:20:20
+# Date: 2016-03-29 23:23:08
 # Generator: MySQL-Front 5.3  (Build 5.16)
 
 /*!40101 SET NAMES utf8 */;
@@ -15,7 +15,7 @@ CREATE TABLE `browsers` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`BrowserID`),
   UNIQUE KEY `BrowserName` (`BrowserName`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "browsers"
@@ -35,7 +35,7 @@ CREATE TABLE `colors` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`ColorID`),
   UNIQUE KEY `ColorName` (`ColorName`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "colors"
@@ -61,6 +61,7 @@ CREATE TABLE `config` (
   `C_StripRefProtocol` tinyint(1) NOT NULL DEFAULT '0',
   `C_StripRefFile` tinyint(1) NOT NULL DEFAULT '0',
   `Language` varchar(20) NOT NULL DEFAULT 'en_US',
+  `ForceLogin` tinyint(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `test` (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
@@ -69,7 +70,7 @@ CREATE TABLE `config` (
 #
 
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (1,'/assets/insyapixel.png','1.2.3.4,1.2.3.5',1,1,0,0,0,0,0,'en-us');
+INSERT INTO `config` VALUES (1,'/assets/insyapixel.png','1.2.3.4,1.2.3.5',1,1,0,0,0,0,0,'en-us',0);
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 
 #
@@ -83,7 +84,7 @@ CREATE TABLE `oses` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`OsID`),
   UNIQUE KEY `OsName` (`OsName`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "oses"
@@ -103,7 +104,7 @@ CREATE TABLE `paths` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`PathID`),
   UNIQUE KEY `PathName` (`PathName`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "paths"
@@ -123,7 +124,7 @@ CREATE TABLE `refs` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`RefID`),
   UNIQUE KEY `ReferenceName` (`RefName`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "refs"
@@ -143,7 +144,7 @@ CREATE TABLE `resolutions` (
   `Total` int(10) DEFAULT NULL,
   PRIMARY KEY (`ResID`),
   UNIQUE KEY `ResName` (`ResName`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "resolutions"
@@ -169,7 +170,7 @@ CREATE TABLE `stats` (
   `PathID` int(10) NOT NULL DEFAULT '0',
   `RefID` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`StatID`)
-) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=232 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "stats"
@@ -177,6 +178,27 @@ CREATE TABLE `stats` (
 
 /*!40000 ALTER TABLE `stats` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats` ENABLE KEYS */;
+
+#
+# Structure for table "users"
+#
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `UserId` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(50) NOT NULL DEFAULT '',
+  `Password` varchar(50) NOT NULL DEFAULT '',
+  `Level` int(1) NOT NULL DEFAULT '1' COMMENT '// 3 admin //2 editor //1 viewer //0 ban',
+  PRIMARY KEY (`UserId`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "users"
+#
+
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin','123',3);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 #
 # Structure for table "groupipsbydate"

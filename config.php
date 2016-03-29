@@ -63,7 +63,7 @@ switch ($_SERVER['CI_ENV']) {
 // Set database
 $db = Flight::db();
 
-$config = $db->query("SELECT C_ImageLoc, C_FilterIP, C_ShowLinks, C_RefThisServer, C_StripPathParameters, C_StripPathProtocol, C_StripRefParameters, C_StripRefProtocol, C_StripRefFile, Language FROM Config WHERE ID = 1")->fetch();
+$config = $db->query("SELECT C_ImageLoc, C_FilterIP, C_ShowLinks, C_RefThisServer, C_StripPathParameters, C_StripPathProtocol, C_StripRefParameters, C_StripRefProtocol, C_StripRefFile, Language, ForceLogin FROM Config WHERE ID = 1")->fetch();
 
 //Get Variables
 define("SIMAGELOCATION", $config["C_ImageLoc"]);
@@ -76,3 +76,4 @@ define("BSTRIPREFPARAMETERS", $config["C_StripRefParameters"]);
 define("BSTRIPREFPROTOCOL", $config["C_StripRefProtocol"]);
 define("BSTRIPREFFILE", $config["C_StripRefFile"]);
 define("LANGUAGE", $config["Language"]);
+define("FORCELOGIN", $config["ForceLogin"]);

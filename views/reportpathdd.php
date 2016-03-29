@@ -1,4 +1,11 @@
- 
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?> 
+<hr size="1" color="#C0C0C0" noshade>
+<br />
 » <a href="/reports"><?=$lang["reports"]; ?></a> » <a href="/reportpathy"><?=$lang["yearly"]; ?></a> 
 » <a href="/reportpathm?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
 » <a href="/reportpathd?year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["daily"]; ?></a> 
@@ -83,13 +90,11 @@ function SQLTable($sTitle, $sSQL, $lang) {
 	$sDay = request("day");
 	
 	$sDate = $sYear . "." . $sMonth . "." . $sDay; 
-	$monthName = "";
-	if($sMonth != "" && isset($sMonth))
-	{
-		$monthName = "ws"  ;//date("F", mktime(0, 0, 0, $sMonth, 1));
-	}
 	
-	echo( $lang["stats"] . ": " . $monthName . " " . $sDay . ", " . $sYear . "<br /><br />");
+	$months = explode(",", $lang['months']);
+	$mName = $sMonth > 0 ? $months[$sMonth] : "";
+
+	echo( $lang["stats"] . ": " . $mName . " " . $sDay . ", " . $sYear . "<br /><br />");
 	
     $qstring = $_SERVER['QUERY_STRING'];
 	
@@ -116,12 +121,12 @@ function SQLTable($sTitle, $sSQL, $lang) {
  
 ?>
 
-<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/ips?year=<?=$sYear; ?>&month=<?=$sMonth; ?>&day=<?=$sDay; ?>"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?=date("F", mktime(0, 0, 0, $sMonth, 1)) . " " . $sDay . ", " . $sYear; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?= $mName . " " . $sDay . ", " . $sYear; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear; ?>&month=<?=$sMonth; ?>&day=<?=$sDay; ?>"><?=$lang["graphs_hour"]; ?></a><br />
 </p>

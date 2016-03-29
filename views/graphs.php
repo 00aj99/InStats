@@ -1,68 +1,74 @@
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
   
 // GraphHours
  
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
-// lyear - a four-digit year or "" for none.
-// lmonth - a 0-based one- or two-digit month number.
+// lYear - a four-digit year or "" for none.
+// lMonth - a 0-based one- or two-digit month number.
 // lDay - a 1-based one- or two- digit day number.
  
-function GraphHours( $sViewType, $lyear, $lmonth, $lDay , $lang)   
+function GraphHours( $sViewType, $lYear, $lMonth, $lDay , $lang)   
 {
 	if ($sViewType === "Views") {
 	  
-	  $sSQL = "SELECT DATE_FORMAT( Stats.Time, '%h') As Hour, COUNT(Stats.IP) AS Total ";
+	  $sSQL = "SELECT Stats.Date, Stats.IP, HOUR( Stats.Time ) As Hour, COUNT(Stats.IP) AS Total ";
 	  $sSQL.= " FROM Stats ";
 	  
-	  $sGroupBy = " GROUP BY DATE_FORMAT( Stats.Time, '%h') ";
+	  $sGroupBy = " GROUP BY HOUR( Stats.Time ) ";
 	  
 	  $sDataSource = "Stats";
 	  
 	} elseif ($sViewType == "Visits") {
 		
-	  $sSQL = "SELECT GroupIpsByHourAndDate.Hour, COUNT(GroupIpsByHourAndDate.IP) AS Total ";
+	  $sSQL = "SELECT GroupIpsByHourAndDate.Date, GroupIpsByHourAndDate.IP, GroupIpsByHourAndDate.Hour, COUNT(GroupIpsByHourAndDate.IP) AS Total ";
 	  $sSQL.=" FROM GroupIpsByHourAndDate ";
 	  
 	  $sGroupBy = " GROUP BY GroupIpsByHourAndDate.Hour ";
-	  
 	  $sDataSource = "GroupIpsByHourAndDate";
 	} 
  
 	$sHaving = " HAVING ((1=1) ";
 
-	if( strlen( $lyear ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%Y')=" . $lyear . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%Y') ";
+	if( strlen( $lYear ) > 0 ) {
+	  $sHaving .= "AND (YEAR( ". $sDataSource .".Date )=" . $lYear . ") ";
+	  $sGroupBy .= ", YEAR( ". $sDataSource .".Date ) ";
 	}
 
-	if( strlen( $lmonth ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%m')=" . $lmonth . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%m') ";
+	if( strlen( $lMonth ) > 0 ) {
+	  $sHaving .= "AND (MONTH( ". $sDataSource .".Date )=" . $lMonth . ") ";
+	  $sGroupBy .= ", MONTH( ". $sDataSource .".Date ) ";
 	}
 
 	if( strlen( $lDay ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%d')=" . $lDay . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%d') ";
+	  $sHaving .= "AND (DAY( ". $sDataSource .".Date )=" . $lDay . ") ";
+	  $sGroupBy .= ", DAY( ". $sDataSource .".Date ) ";
 	} 
 
     $sHaving .= " ) ";
   
 	global $db;	
- 	$data = $db->prepare($sSQL);
-	$data->execute();
+ 	$data = $db->query($sSQL . $sGroupBy . $sHaving);
+ 	
+    $aHours = array();
 	
-    $ahours = array();
+	for ($i = 0; $i < 23; $i++) {
+		$aHours[$i] = 0;
+	}	
+	
 	$lTotal = 0;
 	$lTop = 0;
 	
-    // Calculate totals
-	foreach($data as $row) {
+	foreach($data->fetchAll() as $row) {
 		if ( $row["Total"] > $lTop ) {  
 			$lTop = $row["Total"];
 		}
 	    $lTotal = $lTotal + $row["Total"];
-	    $ahours[$row["Hour"]] = $row["Total"];
+	    $aHours[$row["Hour"]] = $row["Total"];
 	}	
 
 ?>   
@@ -73,52 +79,45 @@ function GraphHours( $sViewType, $lyear, $lmonth, $lDay , $lang)
 		   <td class="titlebg" width="10"></td>
 		</tr>
 		<tr>
-			   <td class="listbg"></td>
-			   <td class="listbg" valign="bottom"></td>
-		<?php
-		foreach($ahours as $lCounter) {
-			
-			if ($lTop > 0) {
-				$lHeight = ($lCounter/$lTop) * 150;
-			}  else  { 
-				$lHeight = 0;
-			}
-		?>
+		    <td class="listbg"></td>
+		    <td class="listbg" valign="bottom"></td>
+			<?php
+			foreach($aHours as $lCounter) {
+				
+				$lHeight = ($lTop > 0) ? ($lCounter/$lTop) * 150 : 0;
+			?>
 			<td class="listbg" valign="bottom" align="center">
-			   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter; ?>">
+			   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter; ?>">
 			</td>
-		<?php } ?>
+			<?php } ?>
 			<td class="listbg" width="10"></td>
 		</tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg"><?=$sViewType;?></td>
-		<?php foreach($ahours as $lCounter) { ?>
-			<td class="listbg" align="center"><?=$lCounter;?></td>
-		<?php } ?>
-		<td class="listbg"></td>
+			<?php foreach($aHours as $lCounter) { ?>
+				<td class="listbg" align="center"><?=$lCounter;?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg">%</td>
-		<?php foreach($ahours as $lCounter) { 
-   		if  ($lTotal > 0) {
-	   		$sPercent = $lCounter/$lTotal;
-		}  else  { 
-			$sPercent = "";
-		}
-		?>
-		<td class="listbg" align="center"><?=$sPercent?></td>
-		<?php } ?>
-		<td class="listbg"></td>
+		    <td class="listbg"></td>
+		    <td class="listbg">%</td>
+			<?php 
+				foreach($aHours as $lCounter) { 
+				$sPercent = $lTotal > 0 ? $lCounter/$lTotal : 0;
+			?>
+			<td class="listbg" align="center"><?=FormatPercent($sPercent)?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg"><?=$lang["hour"]; ?></td>
-		<?php for($lCounter = 0; $lCounter < 23; $lCounter++){ ?>
-		<td class="listbg" align="center"><?=$lCounter;?>:00</td>
-		<?php } ?>
-		<td class="listbg"></td>
+		    <td class="listbg"></td>
+		    <td class="listbg"><?=$lang["hour"]; ?></td>
+			<?php for($lCounter = 0; $lCounter < 24; $lCounter++){ ?>
+			<td class="listbg" align="center"><?=$lCounter;?>:00</td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 	</table>
 	<br />
@@ -128,58 +127,61 @@ function GraphHours( $sViewType, $lyear, $lmonth, $lDay , $lang)
  
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
-// lyear - a four-digit year or "" for none.
-// lmonth - a 0-based one- or two-digit month number.
-// lweek - a 0-based one- or two-digit week (of year) number
+// lYear - a four-digit year or "" for none.
+// lMonth - a 0-based one- or two-digit month number.
+// lWeek - a 0-based one- or two-digit week (of year) number
  
-function GraphDayOfWeek( $sViewType, $lyear, $lmonth, $lweek, $lang )
+function GraphDayOfWeek( $sViewType, $lYear, $lMonth, $lWeek, $lang )
 {
-   if ($sViewType == "Views") { 
-      $sSQL = "SELECT DATE_FORMAT( Stats.Date, '%w') as Day, Count(Stats.IP) AS Total ";
-      $sSQL.= "FROM Stats ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( Stats.Date, '%w') ";
-      
-      $sDataSource = "Stats";
-    } elseif ($sViewType == "Visits") {  
-      $sSQL = "SELECT DATE_FORMAT( GroupIpsByDate.Date, '%w') as Day, Count(GroupIpsByDate.IP) AS Total ";
-      $sSQL.= "FROM GroupIpsByDate ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( GroupIpsByDate.Date, '%w') ";
-      
-      $sDataSource = "GroupIpsByDate";
-	}  else  { 
-      exit();
-	}
+   
+	if ($sViewType == "Views") { 
+	
+		$sSQL = "SELECT Stats.Date, Stats.IP, DAYOFWEEK( Stats.Date ) as Day, Count(Stats.IP) AS Total ";
+		$sSQL.= "FROM Stats ";
+
+		$sGroupBy = "GROUP BY DAYOFWEEK( Stats.Date ) ";
+		$sDataSource = "Stats";
+		
+	} elseif ($sViewType == "Visits") {  
+	
+		$sSQL = "SELECT GroupIpsByDate.Date, GroupIpsByDate.IP, DAYOFWEEK( GroupIpsByDate.Date ) as Day, Count(GroupIpsByDate.IP) AS Total ";
+		$sSQL.= "FROM GroupIpsByDate ";
+
+		$sGroupBy = "GROUP BY DAYOFWEEK( GroupIpsByDate.Date ) ";
+		$sDataSource = "GroupIpsByDate";
+	} 
 
 	$sHaving = " HAVING ((1=1) ";
 
-	if (strlen( $lyear ) > 0) {
-	  $sHaving = $sHaving . "AND (DATE_FORMAT( ". $sDataSource .".Date, '%Y')=" . $lyear . ") ";
-	  $sGroupBy = $sGroupBy . ", DATE_FORMAT( ". $sDataSource .".Date, '%Y') ";
+	if (strlen( $lYear ) > 0) {
+	  $sHaving = $sHaving . "AND (YEAR( ". $sDataSource .".Date)=" . $lYear . ") ";
+	  $sGroupBy = $sGroupBy . ", YEAR( ". $sDataSource .".Date) ";
 	}
 
-	if (strlen( $lmonth ) > 0) {
-	  $sHaving = $sHaving . "AND (DATE_FORMAT( ". $sDataSource .".Date, '%m')=" . $lmonth . ") ";
-	  $sGroupBy = $sGroupBy . ", DATE_FORMAT( ". $sDataSource .".Date, '%m') ";
+	if (strlen( $lMonth ) > 0) {
+	  $sHaving = $sHaving . "AND (MONTH( ". $sDataSource .".Date )=" . $lMonth . ") ";
+	  $sGroupBy = $sGroupBy . ", MONTH( ". $sDataSource .".Date ) ";
 	}
 
-	if (strlen( $lweek ) > 0) {
-	  $sHaving = $sHaving . "AND (DATE_FORMAT( ". $sDataSource .".Date, '%w')=" . $lweek . ") ";
-	  $sGroupBy = $sGroupBy . ", DATE_FORMAT( ". $sDataSource .".Date, '%w') ";
+	if (strlen( $lWeek ) > 0) {
+	  $sHaving = $sHaving . "AND (DAYOFWEEK( ". $sDataSource .".Date )=" . $lWeek . ") ";
+	  $sGroupBy = $sGroupBy . ", DAYOFWEEK( ". $sDataSource .".Date ) ";
 	} 
 
     $sHaving .= ")";
-
+ 
 	global $db;	
- 	$data = $db->prepare($sSQL);
-	$data->execute();
-	
+ 	$data = $db->query($sSQL . $sGroupBy . $sHaving);
+
 	$aDays = array();
+	
+	for ($i = 0; $i < 6; $i++) {
+		$aDays[$i] = 0;
+	}	
+	
 	$lTotal = 0;
 	$lTop = 0;
 	
-    // Calculate totals
 	foreach($data->fetchAll() as $row) {
 		if ($row["Total"] > $lTop){
 			$lTop = $row["Total"];
@@ -187,8 +189,7 @@ function GraphDayOfWeek( $sViewType, $lyear, $lmonth, $lweek, $lang )
 		$lTotal = $lTotal + $row["Total"];
 		$aDays[ $row["Day"] -1 ] = $row["Total"];
 	}
-
-   // Display results
+	
 ?>   
    <table border="0" cellspacing="1" cellpadding="2" class="titlebg">
 	   <tr>
@@ -207,89 +208,103 @@ function GraphDayOfWeek( $sViewType, $lyear, $lmonth, $lweek, $lang )
 				}
 		?>
 		<td class="listbg"  valign="bottom" align="center">
-		   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
+		   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
 		</td>
 		<?php } ?>
 		<td class="listbg" width="10"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg"><?=$sViewType;?></td>
-<?php foreach($aDays as $lCounter) { ?>
-		<td class="listbg" align="center"><?=$lCounter; ?></td>
-<?php } ?>
-		<td class="listbg"></td>
-		</tr>
-		   <td class="listbg"></td>
-		   <td class="listbg">%</td>
-<?php foreach($aDays as $lCounter) { ?>
-		<td class="listbg" align="center"><?=$lCounter/$lTotal;?></td>
-<?php } ?>
-		<td class="listbg"></td>
+			<td class="listbg"></td>
+			<td class="listbg"><?=$sViewType;?></td>
+			<?php foreach($aDays as $lCounter) { ?>
+			<td class="listbg" align="center"><?=$lCounter; ?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 		<tr>
 		   <td class="listbg"></td>
-		   <td class="listbg"><?=$lang["day"]; ?></td>
-<?php for($lCounter = 0; $lCounter < 6; $lCounter++) { ?>
-		<td class="listbg" align="center"><?=  date("w", strtotime($lCounter + 1)); ?></td>
-<?php } ?>
+		   <td class="listbg">%</td>
+		<?php 
+			foreach($aDays as $lCounter) { 
+				$aPercent = $lTotal > 0 ? $lCounter/$lTotal : 0;
+		?>
+		<td class="listbg" align="center"><?=FormatPercent($aPercent);?></td>
+		<?php } ?>
 		<td class="listbg"></td>
+		</tr>
+			<tr>
+			   <td class="listbg"></td>
+			   <td class="listbg"><?=$lang["day"]; ?></td>
+			<?php 
+			foreach($aDays as $key => $lCounter) { 
+
+				$months = explode(",", $lang['weekdays']);
+			 	$mName = $months[$key];
+
+			?>
+			<td class="listbg" align="center"><?= $mName; ?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 	</table>
 	<br /><br />
 <?php } ?>
 
 <?php
-// GraphDayOfmonth
+// GraphDayOfMonth
  
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
-// lyear - a four-digit year or "" for none.
-// lmonth - a 0-based one- or two-digit month number.
+// lYear - a four-digit year or "" for none.
+// lMonth - a 0-based one- or two-digit month number.
 //
-function GraphDayOfmonth( $sViewType, $lyear, $lmonth, $lweek, $lang )
+function GraphDayOfMonth( $sViewType, $lYear, $lMonth, $lWeek, $lang )
 {
 	if ($sViewType == "Views" ) {
-	  $sSQL = "SELECT DATE_FORMAT( Stats.Date, '%d') AS Day, Count(Stats.IP) AS Total ";
+	  $sSQL = "SELECT Stats.Date, Stats.IP, DAY( Stats.Date ) AS Day, Count(Stats.IP) AS Total ";
 	  $sSQL.= "FROM Stats ";
 	  
-	  $sGroupBy = "GROUP BY DATE_FORMAT( Stats.Date, '%d') ";
+	  $sGroupBy = "GROUP BY DAY( Stats.Date ) ";
 	  
 	  $sDataSource = "Stats";
 	} elseif ( $sViewType == "Visits") { 
 
-	  $sSQL = "SELECT DATE_FORMAT( GroupIpsByDate.Date, '%d') AS Day, COUNT(GroupIpsByDate.IP) AS Total ";
+	  $sSQL = "SELECT GroupIpsByDate.Date, GroupIpsByDate.IP, DAY( GroupIpsByDate.Date ) AS Day, COUNT(GroupIpsByDate.IP) AS Total ";
 	  $sSQL .= " FROM GroupIpsByDate ";
 	  
-	  $sGroupBy = "GROUP BY DATE_FORMAT( GroupIpsByDate.Date, '%d') ";
+	  $sGroupBy = "GROUP BY DAY( GroupIpsByDate.Date ) ";
 	  
 	  $sDataSource = "GroupIpsByDate";
 	}  
 
 	$sHaving = "HAVING ((1=1) ";
 
-	if (strlen( $lyear ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%Y')=" . $lyear . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%Y') ";
+	if (strlen( $lYear ) > 0 ) {
+	  $sHaving .= "AND (YEAR( ". $sDataSource .".Date)=" . $lYear . ") ";
+	  $sGroupBy .= ", YEAR( ". $sDataSource .".Date) ";
 	}
 
-	if (strlen( $lmonth ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%m')=" . $lmonth . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%m') ";
+	if (strlen( $lMonth ) > 0 ) {
+	  $sHaving .= "AND (MONTH( ". $sDataSource .".Date)=" . $lMonth . ") ";
+	  $sGroupBy .= ", MONTH( ". $sDataSource .".Date) ";
 	}
 
-	if (strlen( $lweek ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%w')=" . $lweek . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%w') ";
+	if (strlen( $lWeek ) > 0 ) {
+	  $sHaving .= "AND (DAYOFWEEK( ". $sDataSource .".Date )=" . $lWeek . ") ";
+	  $sGroupBy .= ", DAYOFWEEK( ". $sDataSource .".Date ) ";
 	}
 
     $sHaving .= ")";
- 
+	//echo $sSQL . $sGroupBy . $sHaving;die();
 	global $db;
-	$data = $db->prepare($sSQL);
-	$data->execute();
+	$data = $db->query($sSQL . $sGroupBy . $sHaving);
 	
     $aDays = array();
+
+	for ($i = 0; $i < 31; $i++) {
+		$aDays[$i] = 0;
+	}	
+		
 	$lTotal = 0;
 	$lTop = 0;
     
@@ -303,72 +318,66 @@ function GraphDayOfmonth( $sViewType, $lyear, $lmonth, $lweek, $lang )
  
 ?>   
    <table border="0" cellspacing="1" cellpadding="2" class="titlebg">
-	   <tr>
+		<tr>
 		   <td class="titlebg" width="10">»</td>
 		   <td colspan="3" class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_day"]; ?></td>
 		   <td class="titlebg" width="10"></td>
-      </tr>
-		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg" valign="bottom"></td>
-<?php
-   foreach($aDays as $lCounter) {
-   		if ( $lCounter > 0 ) { 
-			$lHeight = ($lCounter/$lTop ) * 150;
-		}  else  { 
-			$lHeight = 0;
-		}
-?>
-		<td class="listbg" valign="bottom" align="center">
-		   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
-		</td>
-<?php } ?>
-		<td class="listbg" width="10"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg"><?=$sViewType;?></td>
-<?php foreach($aDays as $lCounter) { ?>
-		<td class="listbg" align="center"><?=$lCounter;?></td>
-<?php } ?>
-		<td class="listbg"></td>
+			<td class="listbg"></td>
+			<td class="listbg" valign="bottom"></td>
+			<?php
+			   foreach($aDays as $lCounter) {
+					if ( $lCounter > 0 ) { 
+						$lHeight = ($lCounter/$lTop ) * 150;
+					}  else  { 
+						$lHeight = 0;
+					}
+			?>
+			<td class="listbg" valign="bottom" align="center">
+			   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
+			</td>
+			<?php } ?>
+			<td class="listbg" width="10"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg">%</td>
-<?php	
-	foreach($aDays as $lCounter) {
-		if ($lTotal > 0 ) {
-			$lPercent = $lCounter / $lTotal;
-		 } else { 
-			$lPercent = 0;
-		}
-?>
-		<td class="listbg" align="center"><?=FormatPercent($lPercent);?></td>
-<?php } ?>
-		<td class="listbg"></td>
+			<td class="listbg"></td>
+			<td class="listbg"><?=$sViewType;?></td>
+			<?php foreach($aDays as $lCounter) { ?>
+			<td class="listbg" align="center"><?=$lCounter;?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 		<tr>
-		   <td class="listbg"></td>
-		   <td class="listbg"><?=$lang["day"]; ?></td>
-<?php	
-   for ($lCounter = 0; $lCounter > 30; $lCounter++) {
-      $sDay = "";
-      if ($lyear > 0 && $lmonth > 0 ) {
-         $sDay = '<a href="graphs?year=' . $lyear . '&month=' . $lmonth . '&day=' . $lCounter + 1 . '">' . ($lCounter + 1) . '</a>';
-      }  else  { 
-         $sDay++;
-      }
-?>
-		<td class="listbg" align="center"><?=$sDay?></td>
-<?php } ?>
-		<td class="listbg"></td>
+			<td class="listbg"></td>
+			<td class="listbg">%</td>
+			<?php	
+				foreach($aDays as $lCounter) {
+				$lPercent = ($lTotal > 0 ) ?  $lCounter / $lTotal : 0;
+			?>
+			<td class="listbg" align="center"><?=FormatPercent($lPercent);?></td>
+			<?php } ?>
+			<td class="listbg"></td>
+		</tr>
+		<tr>
+			<td class="listbg"></td>
+			<td class="listbg"><?=$lang["day"]; ?></td>
+			<?php	
+			   foreach($aDays as $key => $lCounter) {
+				  $sDay = "";
+				  if ($lYear > 0 && $lMonth > 0 ) {
+					 $sDay = '<a href="graphs?year=' . $lYear . '&month=' . $lMonth . '&day=' . $key+1  . '">' . $key+1 . '</a>';
+				  }  else  { 
+					 $sDay = $key+1;
+				  }
+			?>
+			<td class="listbg" align="center"><?=$sDay?></td>
+			<?php } ?>
+			<td class="listbg"></td>
 		</tr>
 	</table>
 	<br /><br />
 <?php } ?>
-
-
 
 <?php
 
@@ -376,74 +385,72 @@ function GraphDayOfmonth( $sViewType, $lyear, $lmonth, $lweek, $lang )
  
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
-// lyear - a four-digit year or "" for none.
+// lYear - a four-digit year or "" for none.
   
-function GraphWeek( $sViewType, $lyear, $lang )
- {
-   if ($sViewType == "Views" ) {
-      $sSQL = "SELECT DATE_FORMAT( Stats.Date, '%x') as Week, Count(Stats.IP) AS Total ";// ww
-      $sSQL .= "FROM Stats ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( Stats.Date, '%x') ";// ww
-      
-      $sDataSource = "Stats";
-    } elseif ( $sViewType == "Visits" ) {
-      $sSQL = "SELECT DATE_FORMAT( GroupIpsByDate.Date, '%x') as Week, Count(GroupIpsByDate.IP) AS Total ";
-      $sSQL .= "FROM GroupIpsByDate ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( GroupIpsByDate.Date, '%x') "; // ww
-      
-      $sDataSource = "GroupIpsByDate";
-   } else {
-      exit();
-   }
-
+function GraphWeek( $sViewType, $lYear, $lang )
+{
+	if ($sViewType == "Views" ) {
+	  $sSQL = "SELECT Stats.Date, Stats.IP, WEEKOFYEAR( Stats.Date ) as Week, Count(Stats.IP) AS Total ";// ww
+	  $sSQL .= "FROM Stats ";
+	  
+	  $sGroupBy = "GROUP BY WEEKOFYEAR( Stats.Date ) ";// ww
+	  
+	  $sDataSource = "Stats";
+	} elseif ( $sViewType == "Visits" ) {
+	  $sSQL = "SELECT GroupIpsByDate.Date, GroupIpsByDate.IP, WEEKOFYEAR( GroupIpsByDate.Date ) as Week, Count(GroupIpsByDate.IP) AS Total ";
+	  $sSQL .= "FROM GroupIpsByDate ";
+	  
+	  $sGroupBy = "GROUP BY WEEKOFYEAR( GroupIpsByDate.Date ) "; // ww
+	  
+	  $sDataSource = "GroupIpsByDate";
+	}
+	
 	$sHaving = " HAVING ((1=1) ";
 
-	if (strlen( $lyear ) > 0 ) {
-	  $sHaving .= "AND (DATE_FORMAT( ". $sDataSource .".Date, '%Y')=" . $lyear . ") ";
-	  $sGroupBy .= ", DATE_FORMAT( ". $sDataSource .".Date, '%Y') ";
+	if (strlen( $lYear ) > 0 ) {
+	  $sHaving .= "AND (YEAR( ". $sDataSource .".Date)=" . $lYear . ") ";
+	  $sGroupBy .= ", YEAR( ". $sDataSource .".Date) ";
 	}
 
 	$sHaving .= ")";
-
+ 
     global $db;
-	$data = $db->prepare($sSQL);
-	$data->execute();
-	
+	$data = $db->query($sSQL . $sGroupBy . $sHaving);
+ 
     $aWeeks = array();
+	
+	for ($i = 0; $i < 54; $i++) {
+		$aWeeks[$i] = 0;
+	}	
+	
 	$lTotal = 0;
 	$lTop = 0;
 	
-    // Calculate totals
 	foreach($data->fetchAll() as $row) {
 	    if ($row["Total"] > $lTop) {
 	      $lTop = $row["Total"];
 		}
-	    $aWeeks[ $row["Week"] -1  ] = $row["Total"];
+	    
+		$aWeeks[ $row["Week"] -1  ] = $row["Total"];
 	    $lTotal = $lTotal + $row["Total"];
 	}
-   
+    
 ?>   
    <table border="0" cellspacing="1" cellpadding="2" class="titlebg">
 	   <tr>
 		   <td class="titlebg" width="10">»</td>
-		   <td colspan=53 class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_year_week"]; ?></td>
+		   <td colspan=53 class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_year_weekly"]; ?></td>
 		   <td class="titlebg" width="10"></td>
       </tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg" valign="bottom"></td>
 			<?php
-			foreach ( $aWeeks as $lCounter) {
-				if ($lTop > 0) {
-					$lHeight = ($lCounter/$lTop ) * 150;
-				}  else { 
-					$lHeight = 0;
-				}
+				foreach ( $aWeeks as $lCounter) {
+				$lHeight = ($lTop > 0) ? ($lCounter/$lTop ) * 150 : 0;
 			?>
 				<td class="listbg"  valign="bottom" align="center">
-				   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
+				   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
 				</td>
 			<?php } ?>
 			<td class="listbg" width="10"></td>
@@ -460,12 +467,8 @@ function GraphWeek( $sViewType, $lyear, $lang )
 		   <td class="listbg"></td>
 		   <td class="listbg">%</td>
 			<?php	
-		   foreach ( $aWeeks as $lCounter) {
-				if ($lTotal > 0 ) {
-					$lPercent = ($lCounter/$lTotal);
-				} else {
-					$lPercent = 0;
-				}
+			foreach ( $aWeeks as $lCounter) {
+				$lPercent = ($lTotal > 0 ) ? ($lCounter/$lTotal) : 0;
 			?>
 					<td class="listbg" align="center"><?=FormatPercent($lPercent); ?></td>
 			<?php } ?>
@@ -474,8 +477,8 @@ function GraphWeek( $sViewType, $lyear, $lang )
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg"><?=$lang["week"]; ?></td>
-			<?php for($lCounter = 0; $lCounter > 53; $lCounter++) { ?>
-				<td class="listbg" align="center"><?=$lCounter + 1 ?></td>
+			<?php foreach ( $aWeeks as $key => $lCounter) { ?>
+				<td class="listbg" align="center"><?= $key+1; ?></td>
 			<?php } ?>
 			<td class="listbg"></td>
 		</tr>
@@ -488,58 +491,62 @@ function GraphWeek( $sViewType, $lyear, $lang )
  
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
-// lyear - a four-digit year or "" for none.
+// lYear - a four-digit year or "" for none.
 //
-function GraphMonth( $sViewType, $lyear, $lang )
+function GraphMonth( $sViewType, $lYear, $lang )
 { 
-   $sDataSource = "";
-   if ($sViewType == "Views" ){
-      $sSQL = "SELECT DATE_FORMAT( Stats.Date, '%m') AS Month, Count(Stats.IP) AS Total ";
-      $sSQL .= "FROM Stats ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( Stats.Date, '%m') ";
-      
-      $sDataSource = "Stats";
-   } elseif ( $sViewType = "Visits" ) {
-      $sSQL = "SELECT DATE_FORMAT( GroupIpsByDate.Date, '%m') AS Month, COUNT(GroupIpsByDate.IP) AS Total ";
-      $sSQL = $sSQL . "FROM GroupIpsByDate ";
-      
-      $sGroupBy = "GROUP BY DATE_FORMAT( GroupIpsByDate.Date, '%m') ";
-      
-      $sDataSource = "GroupIpsByDate";
-   } else {
-      exit();
-   }
+
+	if ($sViewType == "Views" ){
+		$sSQL = "SELECT Stats.Date, Stats.IP, MONTH( Stats.Date ) AS Month, Count(Stats.IP) AS Total ";
+		$sSQL .= "FROM Stats ";
+
+		$sGroupBy = "GROUP BY MONTH( Stats.Date ) ";
+
+		$sDataSource = "Stats";
+	} elseif ( $sViewType = "Visits" ) {
+		$sSQL = "SELECT GroupIpsByDate.Date, GroupIpsByDate.IP, MONTH( GroupIpsByDate.Date ) AS Month, COUNT(GroupIpsByDate.IP) AS Total ";
+		$sSQL .= "FROM GroupIpsByDate ";
+
+		$sGroupBy = "GROUP BY MONTH( GroupIpsByDate.Date ) ";
+
+		$sDataSource = "GroupIpsByDate";
+	}  
    
 	$sHaving = " HAVING ((1=1) ";
 
-	if (strlen( $lyear ) > 0 ) {
-	  $sHaving .=  "AND (DATE_FORMAT( ". $sDataSource .".Date, '%Y')=" . $lyear . ") ";
-	  $sGroupBy .=  ", DATE_FORMAT( ". $sDataSource .".Date, '%Y') ";
+	if (strlen( $lYear ) > 0 ) {
+		$sHaving .=  "AND (YEAR( ". $sDataSource .".Date )=" . $lYear . ") ";
+		$sGroupBy .=  ", YEAR( ". $sDataSource .".Date ) ";
 	}
    
     $sHaving .= ")";
    
     global $db;
- 	$data = $db->prepare($sSQL);
-	$data->execute();
+	$data = $db->query($sSQL . $sGroupBy . $sHaving);
 	
     $aMonths = array();
+	
+	for ($i = 0; $i < 12; $i++) {
+		$aMonths[$i] = 0;
+	}	
+	
 	$lTotal = 0;
 	$lTop = 0;
 	
-	foreach($data as $row) {
+	foreach($data->fetchAll() as $row) {
+		
 		if ($row["Total"] > $lTop ){
 			$lTop =  $row["Total"];
 		}
-		$lTotal = $lTotal + $row["Total"];
+
 		$aMonths[ $row["Month"] -1 ] = $row["Total"];
+		$lTotal = $lTotal + $row["Total"];
 	}
 ?>   
    <table border="0" cellspacing="1" cellpadding="2" class="titlebg">
 	   <tr>
 		   <td class="titlebg" width="10">»</td>
-		   <td colspan=12 class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_month"]; ?></td>
+		   <td colspan="12" class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_month"]; ?></td>
 		   <td class="titlebg" width="10"></td>
       </tr>
 		<tr>
@@ -547,14 +554,10 @@ function GraphMonth( $sViewType, $lyear, $lang )
 		   <td class="listbg" valign="bottom"></td>
 			<?php
 				foreach( $aMonths as $lCounter) {
-					if ($lTop > 0 ) {
-						$lHeight = ($lCounter/$lTop ) * 150;
-					} else {
-						$lHeight = 0;
-					}
+				$lHeight = ($lTop > 0 ) ? ($lCounter/$lTop ) * 150 : 0;
 			?>
 			<td class="listbg"  valign="bottom" align="center">
-			   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
+			   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
 			</td>
 			<?php } ?>
 			<td class="listbg" width="10"></td>
@@ -571,7 +574,7 @@ function GraphMonth( $sViewType, $lyear, $lang )
 		   <td class="listbg"></td>
 		   <td class="listbg">%</td>
 			<?php foreach($aMonths as $lCounter) { ?>
-				<td class="listbg" align="center"><?=$lCounter/$lTotal;?></td>
+				<td class="listbg" align="center"><?=FormatPercent($lCounter/$lTotal);?></td>
 			<?php } ?>
 			<td class="listbg"></td>
 		</tr>
@@ -579,12 +582,16 @@ function GraphMonth( $sViewType, $lyear, $lang )
 		   <td class="listbg"></td>
 		   <td class="listbg"><?=$lang["month"]; ?></td>
 			<?php	
-			   for($lCounter=0; $lCounter > 11; $lCounter++) {
+			   foreach($aMonths as $key => $lCounter) { 
+				  
 				  $sMonth = "";
+				  $months = explode(",", $lang['months']);
+				  $mName = $months[$key];
+			  
 				  if ($lYear > 0 ) {
-					 $sMonth = '<a href="reportpathd?year=' . $lYear . '&month=' . $lCounter + 1 . '">' . date('F', mktime(0, 0, 0, $lCounter + 1, 10)) . '</a>';
+					 $sMonth = '<a href="reportpathd?year=' . $lYear . '&month=' . $key + 1 . '">' . $mName . '</a>';
 				  } else {
-					 $sMonth = date('F', mktime(0, 0, 0, $sMonth, 10));
+					 $sMonth = $mName;
 				  }
 			?> 
 					<td class="listbg" align="center"><?=$sMonth;?></td>
@@ -600,26 +607,30 @@ function GraphMonth( $sViewType, $lyear, $lang )
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
  
-function GraphYear( $sViewType ) 
+function GraphYear( $sViewType , $lang) 
 {
 	if ($sViewType == "Views" ) {
-	  $sSQL = "SELECT DATE_FORMAT( Stats.Date, '%Y') as Year, Count(Stats.IP) AS Total ";
-	  $sSQL .= "FROM Stats ";
-	  $sSQL .=  "GROUP BY DATE_FORMAT( Stats.Date, '%Y') ";
+		$sSQL = "SELECT Stats.Date, Stats.IP, YEAR( Stats.Date ) as Year, Count(Stats.IP) AS Total ";
+		$sSQL .= "FROM Stats ";
+		$sSQL .=  "GROUP BY YEAR( Stats.Date ) ";
 	} elseif ( $sViewType == "Visits" ) {
-	  $sSQL = "SELECT DATE_FORMAT( GroupIpsByDate.Date, '%Y') as Year, Count(GroupIpsByDate.IP) AS Total ";
-	  $sSQL .= "FROM GroupIpsByDate ";
-	  $sSQL .= "GROUP BY DATE_FORMAT( GroupIpsByDate.Date, '%Y') ";
-	} else {
-	  exit();
-	}
-    
+		$sSQL = "SELECT GroupIpsByDate.Date, GroupIpsByDate.IP, YEAR( GroupIpsByDate.Date ) as Year, Count(GroupIpsByDate.IP) AS Total ";
+		$sSQL .= "FROM GroupIpsByDate ";
+		$sSQL .= "GROUP BY YEAR( GroupIpsByDate.Date ) ";
+	} 
+	
 	global $db;
-	$data = $db->prepare($sSQL);
-	$data->execute();
-	 
+	
+	$data = $db->query($sSQL);
+ 
     $aYears = array(); 
     $aYearValues = array(); 
+	
+	for ($i = 0; $i < 25; $i++) {
+		$aYears[$i] = 0;
+		$aYearValues[$i] = 0;
+	}	
+	
 	$lTotal = 0;
 	$lTop = 0;
 	$lCounter = 0;
@@ -635,77 +646,58 @@ function GraphYear( $sViewType )
 	}	
 
 ?>   
-   <table border="0" cellspacing="1" cellpadding="2" class="titlebg">
-	   <tr>
+<table border="0" cellspacing="1" cellpadding="2" class="titlebg">
+		<tr>
 		   <td class="titlebg" width="10">»</td>
 		   <td colspan="<?=$lCounter+1?>" class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$sViewType;?> <?=$lang["view_year"]; ?></td>
 		   <td class="titlebg" width="10"></td>
-      </tr>
+		</tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg" valign="bottom"></td>
-<?php
-   foreach($aYearValues as $lCounter) {
-		if ($lCounter == 0 ){
-			exit();
-		}
- 
-		if ($lTop > 0 ) {
-			$lHeight = ($lCounter/$lTop ) * 150;
-		} else {
-			$lHeight = 0;
-		}
-?>
+		<?php
+		   foreach($aYearValues as $lCounter) {
+				if ( $lCounter == 0 ) break;
+				$lHeight = ($lTop > 0 ) ? ($lCounter/$lTop ) * 150 : 0;
+		?>
 		<td class="listbg"  valign="bottom" align="center">
-		   <img src="/assets/dr.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
+		   <img src="/assets/insya.gif" height=<?=$lHeight?> width="10" alt="<?=$lCounter;?>">
 		</td>
-<?php } ?>
+		<?php } ?>
 		<td class="listbg" width="10"></td>
 		</tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg"><?=$sViewType;?></td>
-<?php	
-   foreach($aYearValues as $lCounter) {
-      if ($lCounter == 0 ) {
-         exit();
-      }
-?>
+		<?php	
+		   foreach($aYearValues as $lCounter) {
+			  if ( $lCounter == 0 ) break;
+		?>
 		<td class="listbg" align="center"><?=$lCounter;?></td>
-<?php } ?>
+		<?php } ?>
 		<td class="listbg"></td>
 		</tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg">%</td>
-<?php	
-   foreach($aYearValues as $lCounter) {
-      if ($lCounter == 0 ) {
-         exit();
-      }
-	  
-	  if ($lTotal > 0 ) {
-	  	$lPercent = $lCounter / $lTotal;
-	  } else {
-	  	$lPercent = 0;
-	  }
-?>
+		<?php	
+		   foreach($aYearValues as $lCounter) {
+			  if ( $lCounter == 0 ) break;
+			  $lPercent = ($lTotal > 0 ) ? $lCounter / $lTotal : 0;
+		?>
 		<td class="listbg" align="center"><?=FormatPercent($lPercent);?></td>
-<?php } ?>
+		<?php } ?>
 		<td class="listbg"></td>
 		</tr>
 		<tr>
 		   <td class="listbg"></td>
 		   <td class="listbg"><?=$lang["year"]; ?></td>
-<?php	
-   foreach($aYears as $lCounter) {
-      if ($lCounter == 0 ) {
-         exit();
-      }
-	  
-?>
+		<?php	
+		   foreach($aYears as $lCounter) {
+			  if ( $lCounter == 0 ) break;
+		?>
 		<td class="listbg" align="center"><?=$lCounter ?></td>
-<?php } ?>
+		<?php } ?>
 		<td class="listbg"></td>
 		</tr>
 	</table>
@@ -738,7 +730,7 @@ function GetDates($lang)
    endif;
    
    if( strlen($return) === 0 ) :  
-      return $lang["all_datas"];
+      return $lang["all_data"];
    endif;
    
    return $return;
@@ -748,7 +740,7 @@ function GetDates($lang)
 ?>
 
 <hr size="1" color="#C0C0C0" noshade>
-
+<br />
 <?php
 
    $sBackCode = "<br /><br /><b>". $lang["data_display"] ." " . GetDates($lang) . "</b><br /><br />";
@@ -773,8 +765,8 @@ function GetDates($lang)
 	case "dom":
          echo ( $lang["view_daily"] . $sBackCode );
         
-         GraphDayOfmonth ( "Views", request("year"), request("month"), request("week"), $lang );
-         GraphDayOfmonth ( "Visits", request("year"), request("month"), request("week"), $lang );
+         GraphDayOfMonth ( "Views", request("year"), request("month"), request("week"), $lang );
+         GraphDayOfMonth ( "Visits", request("year"), request("month"), request("week"), $lang );
 		break;
 	case "week":
          echo ( $lang["view_year_weekly"] . $sBackCode );
@@ -791,14 +783,14 @@ function GetDates($lang)
 	case "year":
          echo ( $lang["view_yearly"] . $sBackCode );
         
-         GraphYear ( "Views" );
-         GraphYear ( "Visits" );
+         GraphYear ( "Views", $lang );
+         GraphYear ( "Visits" , $lang);
 		break;
  
    }  
 ?>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour"><?=$lang["graphs_hour"]; ?></a><br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow"><?=$lang["graphs_dow"]; ?></a><br />

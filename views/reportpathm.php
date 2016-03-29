@@ -1,6 +1,13 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
+<hr size="1" color="#C0C0C0" noshade>
+<br />
 » <a href="/reports"><?=$lang["reports"]; ?></a> » <a href="/reportpathy"><?=$lang["yearly"]; ?></a> 
-» <a href="/reportpathm?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
-» <a href="/reportpathd?year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["daily"]; ?></a> 
+» <?=$lang["monthly"]; ?>
 <br /><br />
 
 <table border="0" cellspacing="0" cellpadding="0" class="titlebg list">
@@ -26,15 +33,15 @@
 				*,
 				Sum(TopIpsPerDay.Total) AS Ips,
 				Sum(TopPageViewsPerDay.Total) AS Views,
-				DATE_FORMAT(TopIpsPerDay.Date, "%m") AS MonthNumber
+				MONTH(TopIpsPerDay.Date) AS MonthNumber
 			FROM
 				TopIpsPerDay
 			INNER JOIN TopPageViewsPerDay ON TopIpsPerDay.Date = TopPageViewsPerDay.Date
 			GROUP BY
-				DATE_FORMAT(TopIpsPerDay.Date, "%m"),
-				DATE_FORMAT(TopIpsPerDay.Date, "%Y")
+				MONTH(TopIpsPerDay.Date),
+				YEAR(TopIpsPerDay.Date)
 			HAVING
-				(DATE_FORMAT(TopIpsPerDay.Date, "%Y") = "'. $sYear .'")
+				(YEAR(TopIpsPerDay.Date) = "'. $sYear .'")
 			';
  	
 	$reportpathm = $db->query($sSQL);

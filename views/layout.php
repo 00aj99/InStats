@@ -19,6 +19,11 @@
 		<a href="https://github.com/yasinkuyu/InStats/issues" target="_blank"><?=$lang["error_report"]; ?></a> |
 		<a href="https://github.com/yasinkuyu/InStats/issues" target="_blank"><?=$lang["suggest_feature"]; ?></a> |
 		<a href="https://github.com/yasinkuyu/InStats/issues" target="_blank"><?=$lang["suggest_site"]; ?></a>
+		
+		<?php if(isset($_SESSION['IsLogin']) && $_SESSION['IsLogin'] == true) : ?>
+		| <a style="color:red" href="/logout"><?=$lang["logout"]; ?></a>
+		<?php endif; ?>
+		
 	</td>
 </table>
   

@@ -1,3 +1,11 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
+<hr size="1" color="#C0C0C0" noshade>
+<br />
 » <a href="/reports"><?=$lang["page_views"]; ?></a> 
 <br /><br />
 
@@ -72,7 +80,7 @@
 </table>
 	
 
-<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="reportd"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
 » <?=$lang["view"]; ?> <a href="reportpath"><?=$lang["page_views_ap"]; ?></a>.<br />
@@ -81,7 +89,7 @@
 » <?=$lang["view"]; ?> <a href="ips"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_datas"]; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />

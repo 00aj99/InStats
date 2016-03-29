@@ -1,3 +1,11 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
+<hr size="1" color="#C0C0C0" noshade>
+<br />
 » <a href="/reports"><?=$lang["reports"];?></a> » <?=$lang["referers"];?>
 <br />
 <br />

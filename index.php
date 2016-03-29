@@ -1,4 +1,8 @@
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
 
 set_time_limit(0);
 
@@ -175,7 +179,65 @@ Flight::route('(/@lang:[a-z])(/@slug)', function($lang, $slug){
 		'sMonth' => $sMonth
 	);
 
-	$sToday = date("Y") . "-" . date("m") . "-" . date("d");
+	if(FORCELOGIN && $_SESSION['IsLogin'] == false && $slug != "login"){
+		$data["message"] = "Verileri görebilmek için giriş yapmalısınız";
+		Flight::redirect('/login', 301);
+	}
+
+	if($slug == "logout"){
+		$_SESSION['IsLogin'] = false;
+		Flight::redirect('/login', 301);
+	}
+	
+	if($slug == "login"){
+		
+		if(isset($_POST["username"]) && isset($_POST["password"]))
+		{
+				
+			$username = $_POST["username"];
+			$password = $_POST["password"];
+			
+			if($username != "" && $password != ""){
+				
+				// LEVEL:  3 admin //2 editor //1 viewer //0 ban
+				$result = $db->prepare("SELECT Username,Password,Level FROM Users WHERE Username = :username AND Password = :password LIMIT 1");
+				$result->bindParam(':username', $username);
+				$result->bindParam(':password', $password);
+				$result->execute();
+				$login = $result->fetch(PDO::FETCH_ASSOC);
+				
+				if($login){
+					
+					if($login["Level"] == 0){
+						$data["message"] = $lang["login_user_banned"];
+					}
+					
+					if(isset($_POST["Remember"])){
+						// Todo remember 
+					}
+					
+					$_SESSION['IsLogin'] = true;
+					$_SESSION['Level'] = $login["Level"];
+					$_SESSION['Username'] = $login["Username"];
+					
+					$data["message"] = $lang["login_info_wellcome"] . ' '. $login["Username"] . '<br /><br /><a href="/reports">'. $lang["reports"] .'</a>';
+					
+					
+					
+				}else{
+					
+					$_SESSION['IsLogin'] = false;
+					
+					$data["message"] = $lang["login_info_incorrect"];
+				}
+	
+			}else{
+				$data["message"] = $lang["login_info_not_empaty"];
+			}
+		}
+	}
+	
+	$sToday = date("Y") . "-" . date("n") . "-" . date("d");
 	$dtYesterday =  date('Y-m-d', strtotime(' - 1 days'));
 	$sYesterday = $dtYesterday . "-" . $dtYesterday . "-" . $dtYesterday;
 	
@@ -222,19 +284,17 @@ Flight::route('(/@lang:[a-z])(/@slug)', function($lang, $slug){
   
 	if(file_exists(Flight::get('flight.views.path').'/'.$file.'.php')) {
 		Flight::render($file, $data, 'body');
-    }else{
-		//Flight::redirect('/404?'.$_SERVER['REQUEST_URI'], 404);
     }
 	
 	Flight::render("layout", $data);
 
 });
 
-/*
+
 Flight::map('notFound', function(){
 	echo "404";
 });
-*/
+
 
 Flight::start();
 

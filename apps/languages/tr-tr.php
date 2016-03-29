@@ -1,4 +1,8 @@
 <?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
 
 $lang = array();
 
@@ -63,19 +67,19 @@ $lang["resolutions"] = "Çözünürlükler";
 $lang["colors"] = "Renkler";
 $lang["oses"] = "İşletim Sistemleri";
 
-$lang['view_hourly'] = "Hourly Report";
-$lang['view_hour'] = "Views by Hour";
-$lang['view_year_weekly'] = "Yılın Haftasına Göre Rapor";
+$lang['view_hourly'] = "Saatlik Rapor";
+$lang['view_hour'] = "Saate Göre";
 $lang['view_weekly'] = "Haftanın Gününe Göre Rapor";
 $lang['view_week'] = "Haftanın Gününe Göre";
 $lang['view_daily'] = "Ayın Gününe Göre Rapor";
 $lang['view_day'] = "Ayın Gününe Göre";
 $lang['view_monthly'] = "Aylık Rapor";
 $lang['view_month'] = "Aya Göre";
-$lang['view_year_week'] = "Yılın Haftasına Göre";
 $lang['view_yearly'] = "Yıllık Rapor";
 $lang['view_year'] = "Yıla Göre";
 $lang['data_display'] = "Displaying Data For";
+
+$lang['view_year_weekly'] = "Yılın Haftasına Göre Rapor";
 
 $lang["PathName"] = "Sayfa adı";
 $lang["RefName"] = "Referans adı";
@@ -87,7 +91,7 @@ $lang["Total"] = "Toplam";
 
 $lang['all_pages'] = "Tüm Sayfalar";
 $lang['all_referers'] = "Tüm Referanslar";
-$lang['all_datas'] = "Tüm Veriler";
+$lang['all_data'] = "Tüm Veriler";
 
 $lang['visitor_reports'] = "Ziyaretçi Raporları";
 $lang['select'] = "Seçiniz";
@@ -98,7 +102,6 @@ $lang["suggest_feature"] = "Özellik Öner";
 $lang["suggest_site"] = "Site Öner";
 
 // Admin
-
 $lang["update_successfully"] = "Güncelleme Yapıldı!";
 $lang["update_settings"] = "Ayarları Güncelle";
 $lang["return_reports"] = "Raporlara Dön";
@@ -114,16 +117,19 @@ $lang["image_location_desc"] = "Imaj Yeri sabiti StatCountex tarafından<br /> k
 
 $lang["filter_ips"] = "Filtre IP'ler";
 $lang["filter_ips_desc"] = "Filtre edilecek IP adreslerini gösterir <br />
-		bu özellik kendi hareketlerinin kaydedilmesini istemeyen <br />
-		webmasterler için idealdir.<br />
-		Statik IP gereklidir.Ip adreslerini virgülle ayırın!<br />";
-
+bu özellik kendi hareketlerinin kaydedilmesini istemeyen <br />
+webmasterler için idealdir.<br />
+Statik IP gereklidir.Ip adreslerini virgülle ayırın!<br />";
 
 $lang["show_links"] = "Linkleri Göster";
-$lang["show_links_desc"] = "Rapordaki linkleri aktif olarak göster.<br />Eğer Aktif ise linkler tıklanabilir olur.<br />ve sayfa gösterilebilir.<br />";
+$lang["show_links_desc"] = "Rapordaki linkleri aktif olarak göster.<br />
+Eğer Aktif ise linkler tıklanabilir olur.<br />
+ve sayfa gösterilebilir.<br />";
 
 $lang["count_own_server"] = "Sunucu sayacı";
-$lang["count_own_server_desc"] = "Sayaç açılsınmı?<br />Eğer Aktif ise sayaç açılır<br />ve böylece sitemizi sayabiliriz.<br />";
+$lang["count_own_server_desc"] = "Sayaç açılsınmı?<br />
+Eğer Aktif ise sayaç açılır<br />
+ve böylece sitemizi sayabiliriz.<br />";
 
 $lang["strip_params"] = "Sürücüyolu Parametreleri";
 $lang["strip_params_desc"] = "Sürücüyolundan parametreleri atacakmısınız?
@@ -163,5 +169,19 @@ $lang["clear_data_msg"] = "Emin misiniz? ";
 $lang["clear_data_desc"] = "DİKKAT: Tüm İstatistikler silinecektir.";
 $lang["clear_data_success"] = "All statistic data is reset.";
 
+$lang["force_login"] = "Giriş zorunlu olsun";
+$lang["force_login_desc"] = "İstatistiklerin görüntülenebilmesi için kullanıcı girişi yapılması zorunlu olsun.";
+
 $lang["save"] = "Kaydet";
 $lang["back"] = "Geri dön";
+
+$lang["username"] = "Kullanıcı adı";
+$lang["password"] = "Parola";
+$lang["remember"] = "Beni hatırla";
+$lang["login"] = "Giriş";
+$lang["logout"] = "Çıkış";
+$lang["login_desc"] = "İstatislikleri görüntüleyebilmek için giriş yapmanız gerekmektedir.<br>Lütfen <b>Kullanıcı adınızı</b> ve <b>Parolanızı</b> girerek giriş butonuna tıklayın.";
+$lang["login_user_banned"] = "Giriş yapmanız engelledi";
+$lang["login_info_wellcome"] = "Hoşgeldiniz sayın";
+$lang["login_info_incorrect"] = "Kullanıcı adı ya da parola boş hatalı.";
+$lang["login_info_not_empaty"] = "Kullanıcı adı ya da parola boş bırakılamaz.";

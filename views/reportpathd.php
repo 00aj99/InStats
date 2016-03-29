@@ -1,12 +1,24 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+
+	$months = explode(",", $lang['months']);
+	$mName = $sMonth > 0 ? $months[$sMonth] : "";
+
+?>
+<hr size="1" color="#C0C0C0" noshade>
+<br />
 » <a href="/reports"><?=$lang["reports"]; ?></a> » <a href="/reportpathy"><?=$lang["yearly"]; ?></a> 
 » <a href="/reportpathm?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
-» <a href="/reportpathd?year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["daily"]; ?></a> 
+» <?=$lang["daily"]; ?>
 <br /><br />
 
 <table border="0" cellspacing="0" cellpadding="0" class="titlebg list">
 	<tr>
 		<td class="titlebg" width="10">»</td>
-		<td colspan="3" class="smallerheader titlebg" width="320"><?=$lang['daily_reports'];?>  (<?= date("F", mktime(0, 0, 0, $sMonth, 1)) . " " . $sYear; ?>)</td>
+		<td colspan="3" class="smallerheader titlebg" width="320"><?=$lang['daily_reports'];?>  (<?=  $mName . " " . $sYear; ?>)</td>
 		<td class="titlebg" width="10"></td>
 	</tr>	
 	<tr>
@@ -22,20 +34,21 @@
 		
 		$reportpathd = $db->query('
 			SELECT
-			*,
+				TopIpsPerDay.Date,
+				TopPageViewsPerDay.Date,
 				Sum(TopIpsPerDay.Total) AS Ips,
 				Sum(TopPageViewsPerDay.Total) AS Views,
-				DATE_FORMAT(TopIpsPerDay.Date, "%d") AS DayNumber
+				DAY(TopIpsPerDay.Date) AS DayNumber
 			FROM
 				TopIpsPerDay
 			INNER JOIN TopPageViewsPerDay ON TopIpsPerDay.Date = TopPageViewsPerDay.Date
 			GROUP BY
-				DATE_FORMAT(TopIpsPerDay.Date, "%d"),
-				DATE_FORMAT(TopIpsPerDay.Date, "%Y"),
-				DATE_FORMAT(TopIpsPerDay.Date, "%m")
+				DAY(TopIpsPerDay.Date),
+				YEAR(TopIpsPerDay.Date),
+				MONTH(TopIpsPerDay.Date)
 			HAVING
-				DATE_FORMAT(TopIpsPerDay.Date, "%Y") = "'. $sYear .'"
-			AND DATE_FORMAT(TopIpsPerDay.Date, "%m") = "'. $sMonth .'"
+				YEAR(TopIpsPerDay.Date) = "'. $sYear .'"
+			AND MONTH(TopIpsPerDay.Date) = "'. $sMonth .'"
 		');
 	 
 		foreach ($reportpathd->fetchAll() as $row){
@@ -50,13 +63,13 @@
 
 	<?php } ?>
 </table>
-
-<p class="title"><?=$lang["detail_stats"]; ?> (<?= date("F", mktime(0, 0, 0, $sMonth, 1)) . " " . $sYear; ?>)</p>
+ 
+<p class="title"><?=$lang["detail_stats"]; ?> (<?= $mName . " " . $sYear; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/ips?year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
-<p class="title"><?=$lang["graphs"]; ?> (<?= date("F", mktime(0, 0, 0, $sMonth, 1)) . " " . $sYear; ?>)</p>
+<p class="title"><?=$lang["graphs"]; ?> (<?= $mName . " " . $sYear; ?>)</p>
 <p class="smallertext">
 » <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
 » <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>&month=<?=$sMonth;?>"><?=$lang["graphs_dow"]; ?></a>.<br />

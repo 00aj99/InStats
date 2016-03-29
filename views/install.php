@@ -1,3 +1,9 @@
+<?php
+/*
+  InStats
+  @yasinkuyu, 2016
+*/
+?>
 <table border="0" width="100%">
 	<td class="title">InStats Install</td>
 </table>
