@@ -1,7 +1,8 @@
-# InStats
+# InStats 
 A fast, very simple statistics script for PHP
  
 Inspired by StatCounteX 3.1 (ASP)
+
 
 #### Localization Support 
     Translations
@@ -12,3 +13,6 @@ Inspired by StatCounteX 3.1 (ASP)
  
 ![screenshot](https://cloud.githubusercontent.com/assets/204635/14124634/38a167fe-f60f-11e5-92c5-872c613a0903.png)
 
+##### InStats (Insya Statistics)
+
+@yasinkuyu, 2016
