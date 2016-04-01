@@ -113,7 +113,7 @@ $lang["on"] = "Aktif";
 $lang["off"] = "Pasiff";
 
 $lang["image_location"] = "Resim";
-$lang["image_location_desc"] = "Imaj Yeri sabiti StatCountex tarafından<br /> kullanılacak resim dosyasını gösterir.";
+$lang["image_location_desc"] = "Imaj Yeri sabiti InStats tarafından<br /> kullanılacak resim dosyasını gösterir.";
 
 $lang["filter_ips"] = "Filtre IP'ler";
 $lang["filter_ips_desc"] = "Filtre edilecek IP adreslerini gösterir <br />
