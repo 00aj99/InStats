@@ -1,5 +1,5 @@
 # InStats 
-A fast, very simple statistics script for PHP
+A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
  
 Inspired by StatCounteX 3.1 (ASP)
 
