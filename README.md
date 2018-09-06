@@ -3,6 +3,7 @@ A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/y
  
 Inspired by StatCounteX 3.1 (ASP)
 
+InStats Wordpress Plugin (https://github.com/yasinkuyu/InStats-WP)
 
 #### Localization Support 
     Translations
