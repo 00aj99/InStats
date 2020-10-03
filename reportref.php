@@ -3,10 +3,15 @@
   InStats
   @yasinkuyu, 2016
 */
+
+require 'config.php';
+require "apps/languages/tr-tr.php";
+require "views/layout.php";
+ 
 ?>
 <hr size="1" color="#C0C0C0" noshade>
 <br />
-» <a href="/reports"><?=$lang["reports"];?></a> » <?=$lang["referers"];?>
+» <a href="reports.php"><?=$lang["reports"];?></a> » <?=$lang["referers"];?>
 <br />
 <br />
 
@@ -22,7 +27,7 @@
 			 
 		global $db;
 		
-		$reportref = $db->prepare("SELECT RefName, Total FROM Refs ORDER BY Total DESC");
+		$reportref = $db->prepare("SELECT refname, total FROM refs ORDER BY total DESC");
 		$reportref->execute();
 		 
 		$iFieldCount = 0;
@@ -78,3 +83,6 @@
 	<?php } ?>
 </table>
 	
+<?php
+	require "views/footer.php";
+?>

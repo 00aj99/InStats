@@ -42,7 +42,7 @@ function DisplayCalendar($month,$year, $lang){
 		
 		if ($current_day == date("d")) $CellColor="Yellow"; 
 		
-		$CellStr = '<span class="smallertext datetable"><a href="reportpathdd?year=' . $year . '&month=' . $month . '&day=' . $current_day . '">' . $current_day . '</a></span>';
+		$CellStr = '<span class="smallertext datetable"><a href="reportpathdd.php?year=' . $year . '&month=' . $month . '&day=' . $current_day . '">' . $current_day . '</a></span>';
 			
 		$calendar.= '<td bgColor="'. $CellColor .'">'. $CellStr .'</td>';
 		
@@ -110,11 +110,11 @@ function YearCombo(){
   global $mYear;
   
   echo '<select name="year">';
-  if ($mYear === "" ) $mYear = date("n");
+  if ($mYear == "" ) $mYear = date("Y");
 
-  for( $i = 2016 ; $i <= 2034; $i++ ) {
+  for( $i = 2016 ; $i <= 2071; $i++ ) {
 
-	$selected = $mYear == $i ? 'selected="selected"' : '';
+	$selected = ($mYear == $i ? 'selected="selected"' : '');
     echo  '<option '. $selected .' value="'. $i .'">'. $i .'</option>';
 	
   }

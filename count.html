@@ -10,7 +10,9 @@
 	var x = s * m;
 	var f = '' + escape(document.referrer);
 	var j = navigator.javaEnabled();
-	
+	var l = navigator.language;
+	var ua = navigator.userAgent;
+
 	if (navigator.appName == 'Netscape') {
 		b = 'NS';
 	}
@@ -33,7 +35,7 @@
 		c = screen.pixelDepth;
 	}
 	
-	var info = 'w=' + w + '&h=' + h + '&c=' + c + '&r=' + f + '&u=' + u + '&fs=' + fs + '&b=' + b + '&x=' + x;
-	document.write('<img src="/count?' + info + '" width="90" height="30" border="0">');
+	var info = 'w=' + w + '&h=' + h + '&c=' + c + '&r=' + f + '&u=' + u + '&fs=' + fs + '&b=' + b + '&x=' + x + '&l=' + l + '&ua=' + ua;
+	document.write('<img src="/instats/count.php?' + info + '" width="0" height="0" border="0">');
 
 </script>

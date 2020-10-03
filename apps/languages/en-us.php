@@ -34,14 +34,14 @@ $lang['yesterday'] = "Yesterday";
 $lang['top_day'] = "Top Day";
 $lang['detail_stats'] = "Detailed Statistics";
 $lang['detail_reports'] = "detailed reports";
-$lang['detail_reports_text'] = "to see the statistics about Browsers, Resolutions, Colors, Operating Systems Pages and Referers";
+$lang['detail_reports_text'] = "to see the statistics about browsers, resolutions, colors, Operating Systems Pages and Referers";
 $lang['admin'] = "Admin";
 $lang['admin_page'] = "Admin Page";
 $lang['view'] = "View";
 $lang['page_views_ap'] = "page views for all pages";
 $lang['report_ref'] = "all referers";
 $lang['reportpathy'] = "time specific page views";
-$lang['report_ips'] = " click paths (IP addresses)";
+$lang['report_ips'] = " click paths (ip addresses)";
 $lang['graphs'] = "Graphs";
 $lang['graphs_hour'] = "Page Views and Visitors by Hour";
 $lang['graphs_dow'] = "Page Views and Visitors by Day of Week";
@@ -62,10 +62,16 @@ $lang['daily'] = "Daily Reports";
 $lang['hourly'] = "Hourly Reports";
 $lang["top_ten_page"] = "Top 10 Page";
 $lang["top_ten_ref"] = "Top 10 Referers";
-$lang["browsers"] = "Browsers";
-$lang["resolutions"] = "Resolutions";
-$lang["colors"] = "Colors";
+$lang["browsers"] = "browsers";
+$lang["resolutions"] = "resolutions";
+$lang["colors"] = "colors";
 $lang["oses"] = "Operating Systems";
+$lang["langs"] = "Langs";
+$lang["langname"] = "Lang";
+$lang["uagents"] = "User Agents";
+$lang["uagentname"] = "User Agent";
+$lang["keywords"] = "Keywords";
+$lang["keyword"] = "Keyword";
 
 $lang['view_hourly'] = "Hourly Report";
 $lang['view_hour'] = "by Hour";
@@ -81,13 +87,13 @@ $lang['data_display'] = "Displaying Data For";
 
 $lang['view_year_weekly'] = "Week of Year Report";
 
-$lang["PathName"] = "Path Name";
-$lang["RefName"] = "Referer Name";
-$lang["BrowserName"] = "Browser Adı";
-$lang["ResName"] = "Resolutions Name";
-$lang["ColorName"] = "Color Name";
-$lang["OsName"] = "OS Name";
-$lang["Total"] = "Total";
+$lang["pathname"] = "Path Name";
+$lang["refname"] = "Referer Name";
+$lang["browsername"] = "Browser Adı";
+$lang["resname"] = "resolutions Name";
+$lang["colorname"] = "Color Name";
+$lang["osname"] = "OS Name";
+$lang["total"] = "total";
 
 $lang['all_pages'] = "All Pages";
 $lang['all_referers'] = "All Referers";
@@ -115,8 +121,8 @@ $lang["off"] = "Off";
 $lang["image_location"] = "Image Location";
 $lang["image_location_desc"] = "sImageLocation constant defines the location of the image used by InStats.";
 
-$lang["filter_ips"] = "Filtre IP's";
-$lang["filter_ips_desc"] = "sFilterIps constant defines IP addresses to filter from stats <br />
+$lang["filter_ips"] = "Filtre ip's";
+$lang["filter_ips_desc"] = "sFilterIps constant defines ip addresses to filter from stats <br />
 reported by InStats. This is useful for webmasters that do <br />
 not want their own activity reported in reports.<br />
 List IPs separated by commas!";
@@ -131,13 +137,13 @@ $lang["count_own_server_desc"] = "Count your own server as referer?<br />
 If true, the click generated from your<br />
 own site will be counted as referers as well.";
 
-$lang["strip_params"] = "Strip PathName Parameters";
+$lang["strip_params"] = "Strip pathname Parameters";
 $lang["strip_params_desc"] = "Strip off the parameters from the path name?<br />
 If on:<br />
 http://www.insya.com/index.asp?id=2&cid=4 is stripped to<br />
 http://www.insya.com/index.asp";
 
-$lang["strip_protocol"] = "Strip PathName Protocol";
+$lang["strip_protocol"] = "Strip pathname Protocol";
 $lang["strip_protocol_desc"] = "Strip off the protocol from the path name?<br />
 If on:<br />
 http://www.insya.com/index.asp?id=2&cid4 is stripped to<br />
@@ -161,7 +167,7 @@ If on:<br />
 http://www.microsoft.com/go.asp?linkid=6 is stripped to<br />
 http://www.microsoft.com";
 
-$lang["language"] = "Language";
+$lang["language"] = "language";
 $lang["language_desc"] = "Select display language.";
 
 $lang["clear_data"] = "Clear data";

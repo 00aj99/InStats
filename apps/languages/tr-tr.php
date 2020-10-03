@@ -41,7 +41,7 @@ $lang['view'] = "Göster";
 $lang['page_views_ap'] = "Tüm Sayfaların Ziyaret Oranları";
 $lang['report_ref'] = "Tüm Referanslar";
 $lang['reportpathy'] = "Zamana Göre Sayfa Ziyaretleri";
-$lang['report_ips'] = "Ziyaretçiler (IP adresi)";
+$lang['report_ips'] = "Ziyaretçiler (ip adresi)";
 $lang['graphs'] = "Grafikler";
 $lang['graphs_hour'] = "Saate Göre Sayfa Ziyaretleri ve Ziyaretçiler";
 $lang['graphs_dow'] = "Haftanın Gününe Göre Sayfa Ziyaretleri ve Ziyaretçiler";
@@ -66,6 +66,12 @@ $lang["browsers"] = "Tarayıcılar";
 $lang["resolutions"] = "Çözünürlükler";
 $lang["colors"] = "Renkler";
 $lang["oses"] = "İşletim Sistemleri";
+$lang["langs"] = "Diller";
+$lang["langname"] = "Dil";
+$lang["uagents"] = "User Agents";
+$lang["uagentname"] = "User Agent";
+$lang["keywords"] = "Anahtar Kelimeler";
+$lang["keyword"] = "Anahtar Kelime";
 
 $lang['view_hourly'] = "Saatlik Rapor";
 $lang['view_hour'] = "Saate Göre";
@@ -81,13 +87,13 @@ $lang['data_display'] = "Displaying Data For";
 
 $lang['view_year_weekly'] = "Yılın Haftasına Göre Rapor";
 
-$lang["PathName"] = "Sayfa adı";
-$lang["RefName"] = "Referans adı";
-$lang["BrowserName"] = "Tarayıcı adı";
-$lang["ResName"] = "Çözünürlük adı";
-$lang["ColorName"] = "Renk adı";
-$lang["OsName"] = "İşletim sistemi adı";
-$lang["Total"] = "Toplam";
+$lang["pathname"] = "Sayfa adı";
+$lang["refname"] = "Referans adı";
+$lang["browsername"] = "Tarayıcı adı";
+$lang["resname"] = "Çözünürlük adı";
+$lang["colorname"] = "Renk adı";
+$lang["osname"] = "İşletim sistemi adı";
+$lang["total"] = "Toplam";
 
 $lang['all_pages'] = "Tüm Sayfalar";
 $lang['all_referers'] = "Tüm Referanslar";
@@ -115,11 +121,11 @@ $lang["off"] = "Pasiff";
 $lang["image_location"] = "Resim";
 $lang["image_location_desc"] = "Imaj Yeri sabiti InStats tarafından<br /> kullanılacak resim dosyasını gösterir.";
 
-$lang["filter_ips"] = "Filtre IP'ler";
-$lang["filter_ips_desc"] = "Filtre edilecek IP adreslerini gösterir <br />
+$lang["filter_ips"] = "Filtre ip'ler";
+$lang["filter_ips_desc"] = "Filtre edilecek ip adreslerini gösterir <br />
 bu özellik kendi hareketlerinin kaydedilmesini istemeyen <br />
 webmasterler için idealdir.<br />
-Statik IP gereklidir.Ip adreslerini virgülle ayırın!<br />";
+Statik ip gereklidir.Ip adreslerini virgülle ayırın!<br />";
 
 $lang["show_links"] = "Linkleri Göster";
 $lang["show_links_desc"] = "Rapordaki linkleri aktif olarak göster.<br />

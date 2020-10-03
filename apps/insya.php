@@ -53,7 +53,7 @@ function getLanguages(){
 	   }
 	}
 	else {
-		   print "Language directory ${directory} doesn't exist!";
+		   print "language directory ${directory} doesn't exist!";
 	} 
 	
 	return $languages;
@@ -67,31 +67,5 @@ function languageDetect($language){
 			
 	}
 
-	if (!in_array($language, Flight::get('possible_languages'))) {
-
-		$language = Flight::get('default_language');
-		
-	}	
-
 	return $language;
-	
 }
-
-function getLang($name){
-		
-	if($name == "")
-	   $name = Flight::get('language');
-	 
-    if (in_array($name, Flight::get('possible_languages'))) {
-
-        Flight::set('language', $name);
-		include 'apps/languages/'. $name .'.php';
-		
-		
-		return $lang;		
-    }else{
-		echo "Insya: Internal Error..."; die();
-	}
-
-}
-   

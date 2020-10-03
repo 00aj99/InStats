@@ -1,8 +1,7 @@
-﻿# Host: localhost  (Version: 5.5.5-10.1.9-MariaDB)
-# Date: 2016-03-29 23:23:08
-# Generator: MySQL-Front 5.3  (Build 5.16)
+﻿# Host: localhost  (Version 5.5.5-10.1.9-MariaDB)
+# Date: 2020-10-03 14:45:14
+# Generator: MySQL-Front 6.0  (Build 2.20)
 
-/*!40101 SET NAMES utf8 */;
 
 #
 # Structure for table "browsers"
@@ -10,19 +9,17 @@
 
 DROP TABLE IF EXISTS `browsers`;
 CREATE TABLE `browsers` (
-  `BrowserID` int(10) NOT NULL AUTO_INCREMENT,
-  `BrowserName` varchar(110) DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`BrowserID`),
-  UNIQUE KEY `BrowserName` (`BrowserName`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `browserid` int(10) NOT NULL AUTO_INCREMENT,
+  `browsername` varchar(110) DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`browserid`),
+  UNIQUE KEY `browsername` (`browsername`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "browsers"
 #
 
-/*!40000 ALTER TABLE `browsers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `browsers` ENABLE KEYS */;
 
 #
 # Structure for table "colors"
@@ -30,19 +27,17 @@ CREATE TABLE `browsers` (
 
 DROP TABLE IF EXISTS `colors`;
 CREATE TABLE `colors` (
-  `ColorID` int(10) NOT NULL AUTO_INCREMENT,
-  `ColorName` varchar(20) NOT NULL DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`ColorID`),
-  UNIQUE KEY `ColorName` (`ColorName`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `colorid` int(10) NOT NULL AUTO_INCREMENT,
+  `colorname` varchar(20) NOT NULL DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`colorid`),
+  UNIQUE KEY `colorname` (`colorname`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "colors"
 #
 
-/*!40000 ALTER TABLE `colors` DISABLE KEYS */;
-/*!40000 ALTER TABLE `colors` ENABLE KEYS */;
 
 #
 # Structure for table "config"
@@ -50,19 +45,19 @@ CREATE TABLE `colors` (
 
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
-  `ID` int(10) NOT NULL,
-  `C_ImageLoc` varchar(200) DEFAULT NULL,
-  `C_FilterIP` varchar(200) DEFAULT NULL,
-  `C_Showlinks` tinyint(1) NOT NULL DEFAULT '0',
-  `C_RefThisServer` tinyint(1) NOT NULL DEFAULT '0',
-  `C_StripPathParameters` tinyint(1) NOT NULL DEFAULT '0',
-  `C_StripPathProtocol` tinyint(1) NOT NULL DEFAULT '0',
-  `C_StripRefParameters` tinyint(1) NOT NULL DEFAULT '0',
-  `C_StripRefProtocol` tinyint(1) NOT NULL DEFAULT '0',
-  `C_StripRefFile` tinyint(1) NOT NULL DEFAULT '0',
-  `Language` varchar(20) NOT NULL DEFAULT 'en_US',
-  `ForceLogin` tinyint(1) NOT NULL DEFAULT '0',
-  UNIQUE KEY `test` (`ID`)
+  `id` int(10) NOT NULL,
+  `c_imageloc` varchar(200) DEFAULT NULL,
+  `c_filterip` varchar(200) DEFAULT NULL,
+  `c_showlinks` tinyint(1) NOT NULL DEFAULT '0',
+  `c_refthisserver` tinyint(1) NOT NULL DEFAULT '0',
+  `c_strippathparameters` tinyint(1) NOT NULL DEFAULT '0',
+  `c_strippathprotocol` tinyint(1) NOT NULL DEFAULT '0',
+  `c_striprefparameters` tinyint(1) NOT NULL DEFAULT '0',
+  `c_striprefprotocol` tinyint(1) NOT NULL DEFAULT '0',
+  `c_stripreffile` tinyint(1) NOT NULL DEFAULT '0',
+  `language` varchar(20) NOT NULL DEFAULT 'en_us',
+  `forcelogin` tinyint(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `test` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
@@ -74,24 +69,58 @@ INSERT INTO `config` VALUES (1,'/assets/insyapixel.png','1.2.3.4,1.2.3.5',1,1,0,
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 
 #
+# Structure for table "keywords"
+#
+
+DROP TABLE IF EXISTS `keywords`;
+CREATE TABLE `keywords` (
+  `keyid` int(11) NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(255) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`keyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "keywords"
+#
+
+INSERT INTO `keywords` VALUES (1,'',72);
+
+#
+# Structure for table "langs"
+#
+
+DROP TABLE IF EXISTS `langs`;
+CREATE TABLE `langs` (
+  `langid` int(11) NOT NULL AUTO_INCREMENT,
+  `langname` varchar(50) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`langid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "langs"
+#
+
+INSERT INTO `langs` VALUES (1,'tr-TR',12);
+
+#
 # Structure for table "oses"
 #
 
 DROP TABLE IF EXISTS `oses`;
 CREATE TABLE `oses` (
-  `OsID` int(10) NOT NULL AUTO_INCREMENT,
-  `OsName` varchar(20) NOT NULL DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`OsID`),
-  UNIQUE KEY `OsName` (`OsName`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `osid` int(10) NOT NULL AUTO_INCREMENT,
+  `osname` varchar(20) NOT NULL DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`osid`),
+  UNIQUE KEY `osname` (`osname`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "oses"
 #
 
-/*!40000 ALTER TABLE `oses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oses` ENABLE KEYS */;
 
 #
 # Structure for table "paths"
@@ -99,19 +128,17 @@ CREATE TABLE `oses` (
 
 DROP TABLE IF EXISTS `paths`;
 CREATE TABLE `paths` (
-  `PathID` int(10) NOT NULL AUTO_INCREMENT,
-  `PathName` varchar(250) NOT NULL DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`PathID`),
-  UNIQUE KEY `PathName` (`PathName`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `pathid` int(10) NOT NULL AUTO_INCREMENT,
+  `pathname` varchar(250) NOT NULL DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`pathid`),
+  UNIQUE KEY `pathname` (`pathname`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "paths"
 #
 
-/*!40000 ALTER TABLE `paths` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paths` ENABLE KEYS */;
 
 #
 # Structure for table "refs"
@@ -119,19 +146,17 @@ CREATE TABLE `paths` (
 
 DROP TABLE IF EXISTS `refs`;
 CREATE TABLE `refs` (
-  `RefID` int(10) NOT NULL AUTO_INCREMENT,
-  `RefName` varchar(250) NOT NULL DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`RefID`),
-  UNIQUE KEY `ReferenceName` (`RefName`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `refid` int(10) NOT NULL AUTO_INCREMENT,
+  `refname` varchar(250) NOT NULL DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`refid`),
+  UNIQUE KEY `referencename` (`refname`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "refs"
 #
 
-/*!40000 ALTER TABLE `refs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `refs` ENABLE KEYS */;
 
 #
 # Structure for table "resolutions"
@@ -139,19 +164,17 @@ CREATE TABLE `refs` (
 
 DROP TABLE IF EXISTS `resolutions`;
 CREATE TABLE `resolutions` (
-  `ResID` int(10) NOT NULL AUTO_INCREMENT,
-  `ResName` varchar(10) NOT NULL DEFAULT '',
-  `Total` int(10) DEFAULT NULL,
-  PRIMARY KEY (`ResID`),
-  UNIQUE KEY `ResName` (`ResName`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `resid` int(10) NOT NULL AUTO_INCREMENT,
+  `resname` varchar(10) NOT NULL DEFAULT '',
+  `total` int(10) DEFAULT NULL,
+  PRIMARY KEY (`resid`),
+  UNIQUE KEY `resname` (`resname`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "resolutions"
 #
 
-/*!40000 ALTER TABLE `resolutions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `resolutions` ENABLE KEYS */;
 
 #
 # Structure for table "stats"
@@ -159,25 +182,44 @@ CREATE TABLE `resolutions` (
 
 DROP TABLE IF EXISTS `stats`;
 CREATE TABLE `stats` (
-  `StatID` int(10) NOT NULL AUTO_INCREMENT,
-  `Date` date NOT NULL DEFAULT '0000-00-00',
-  `Time` time NOT NULL DEFAULT '00:00:00',
-  `IP` varchar(20) DEFAULT NULL,
-  `OsID` int(10) NOT NULL DEFAULT '0',
-  `ColorID` int(10) NOT NULL DEFAULT '0',
-  `BrowserID` int(10) NOT NULL DEFAULT '0',
-  `ResID` int(10) NOT NULL DEFAULT '0',
-  `PathID` int(10) NOT NULL DEFAULT '0',
-  `RefID` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`StatID`)
-) ENGINE=MyISAM AUTO_INCREMENT=232 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  `statid` int(10) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL DEFAULT '0000-00-00',
+  `time` time NOT NULL DEFAULT '00:00:00',
+  `ip` varchar(20) DEFAULT NULL,
+  `osid` int(10) NOT NULL DEFAULT '0',
+  `colorid` int(10) NOT NULL DEFAULT '0',
+  `browserid` int(10) NOT NULL DEFAULT '0',
+  `resid` int(10) NOT NULL DEFAULT '0',
+  `keyid` int(11) DEFAULT '0',
+  `pathid` int(10) NOT NULL DEFAULT '0',
+  `refid` int(10) NOT NULL DEFAULT '0',
+  `langid` int(10) DEFAULT '0',
+  `uagentid` int(10) DEFAULT '0',
+  PRIMARY KEY (`statid`)
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "stats"
 #
 
-/*!40000 ALTER TABLE `stats` DISABLE KEYS */;
-/*!40000 ALTER TABLE `stats` ENABLE KEYS */;
+
+#
+# Structure for table "uagents"
+#
+
+DROP TABLE IF EXISTS `uagents`;
+CREATE TABLE `uagents` (
+  `uagentid` int(11) NOT NULL AUTO_INCREMENT,
+  `uagentname` varchar(255) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`uagentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "uagents"
+#
+
+INSERT INTO `uagents` VALUES (1,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36',7);
 
 #
 # Structure for table "users"
@@ -185,49 +227,81 @@ CREATE TABLE `stats` (
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `UserId` int(11) NOT NULL AUTO_INCREMENT,
-  `Username` varchar(50) NOT NULL DEFAULT '',
-  `Password` varchar(50) NOT NULL DEFAULT '',
-  `Level` int(1) NOT NULL DEFAULT '1' COMMENT '// 3 admin //2 editor //1 viewer //0 ban',
-  PRIMARY KEY (`UserId`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `password` varchar(50) NOT NULL DEFAULT '',
+  `level` int(1) NOT NULL DEFAULT '1' COMMENT '// 3 admin //2 editor //1 viewer //0 ban',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Data for table "users"
 #
 
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','123',3);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 #
-# Structure for table "groupipsbydate"
+# View "groupipsbydate"
 #
 
 DROP VIEW IF EXISTS `groupipsbydate`;
-CREATE VIEW `groupipsbydate` AS 
-  select `stats`.`IP` AS `IP`,`stats`.`Date` AS `Date` from `stats` group by `stats`.`IP`,`stats`.`Date`;
+CREATE
+  ALGORITHM = UNDEFINED
+  VIEW `groupipsbydate`
+  AS
+SELECT
+  `ip`, `date`
+FROM
+  `stats`
+GROUP BY
+  `ip`, `date`;
 
 #
-# Structure for table "groupipsbyhouranddate"
+# View "groupipsbyhouranddate"
 #
 
 DROP VIEW IF EXISTS `groupipsbyhouranddate`;
-CREATE VIEW `groupipsbyhouranddate` AS 
-  select time_format(`stats`.`Time`,'%h') AS `Hour`,`stats`.`IP` AS `IP`,`stats`.`Date` AS `Date` from `stats` group by time_format(`stats`.`Time`,'%h'),`stats`.`IP`,`stats`.`Date` order by time_format(`stats`.`Time`,'%h');
+CREATE
+  ALGORITHM = UNDEFINED
+  VIEW `groupipsbyhouranddate`
+  AS
+SELECT
+  TIME_FORMAT(`time`, '%h') AS 'hour', `ip`, `date`
+FROM
+  `stats`
+GROUP BY
+  TIME_FORMAT(`time`, '%h'), `ip`, `date`
+ORDER BY TIME_FORMAT(`time`, '%h');
 
 #
-# Structure for table "topipsperday"
+# View "topipsperday"
 #
 
 DROP VIEW IF EXISTS `topipsperday`;
-CREATE VIEW `topipsperday` AS 
-  select count(`groupipsbydate`.`IP`) AS `Total`,`groupipsbydate`.`Date` AS `Date` from `groupipsbydate` group by `groupipsbydate`.`Date` order by count(`groupipsbydate`.`IP`) desc;
+CREATE
+  ALGORITHM = UNDEFINED
+  VIEW `topipsperday`
+  AS
+SELECT
+  COUNT(`ip`) AS 'total', `date`
+FROM
+  `groupipsbydate`
+GROUP BY
+  `date`
+ORDER BY COUNT(`ip`) DESC;
 
 #
-# Structure for table "toppageviewsperday"
+# View "toppageviewsperday"
 #
 
 DROP VIEW IF EXISTS `toppageviewsperday`;
-CREATE VIEW `toppageviewsperday` AS 
-  select count(`stats`.`IP`) AS `Total`,`stats`.`Date` AS `Date` from `stats` group by `stats`.`Date` order by count(`stats`.`IP`) desc;
+CREATE
+  ALGORITHM = UNDEFINED
+  VIEW `toppageviewsperday`
+  AS
+SELECT
+  COUNT(`ip`) AS 'total', `date`
+FROM
+  `stats`
+GROUP BY
+  `date`
+ORDER BY COUNT(`ip`) DESC;

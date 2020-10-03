@@ -3,10 +3,15 @@
   InStats
   @yasinkuyu, 2016
 */
+
+require 'config.php';
+require "apps/languages/tr-tr.php";
+require "views/layout.php";
+ 
 ?>
 <hr size="1" color="#C0C0C0" noshade>
 <br />
-» <a href="/reports"><?=$lang["page_views"]; ?></a> 
+» <a href="reports.php"><?=$lang["page_views"]; ?></a> 
 <br /><br />
 
 <table border="0" cellspacing="0" cellpadding="0" class="titlebg list" width="600">
@@ -21,7 +26,7 @@
 		 
 		global $db;
 		
-		$reportpath = $db->prepare("SELECT PathName, Total FROM Paths ORDER BY Total DESC");
+		$reportpath = $db->prepare("SELECT pathname, total FROM paths ORDER BY total DESC");
 		$reportpath->execute();
 
 		$iFieldCount = 0;
@@ -82,23 +87,27 @@
 
 <p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
-» <?=$lang["view"]; ?> <a href="reportd"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
-» <?=$lang["view"]; ?> <a href="reportpath"><?=$lang["page_views_ap"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="reportref"><?=$lang["report_ref"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="reportpathy"><?=$lang["reportpathy"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="ips"><?=$lang["report_ips"]; ?></a><br />
+» <?=$lang["view"]; ?> <a href="reportd.php"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
+» <?=$lang["view"]; ?> <a href="reportpath.php"><?=$lang["page_views_ap"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="reportref.php"><?=$lang["report_ref"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="reportpathy.php"><?=$lang["reportpathy"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="ips.php"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
 <p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
-» <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=dom&year=<?=$sYear;?>"><?=$lang["graphs_dom"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=week&year=<?=$sYear;?>"><?=$lang["graphs_week"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=month&year=<?=$sYear;?>"><?=$lang["graphs_month"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=year&year=<?=$sYear;?>"><?=$lang["graphs_year"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=dom&year=<?=$sYear;?>"><?=$lang["graphs_dom"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=week&year=<?=$sYear;?>"><?=$lang["graphs_week"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=month&year=<?=$sYear;?>"><?=$lang["graphs_month"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=year&year=<?=$sYear;?>"><?=$lang["graphs_year"]; ?></a>.<br />
 </p>
 
 <p class="title"><?=$lang["admin"]; ?></p>
-» <?=$lang["view"]; ?> <a href="admin"><?=$lang["admin_page"]; ?></a>
+» <?=$lang["view"]; ?> <a href="admin.php"><?=$lang["admin_page"]; ?></a>
 <br />
+
+<?php
+	require "views/footer.php";
+?>

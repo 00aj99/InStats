@@ -9,7 +9,7 @@
 </table>
 <hr size="1" color="#8b4513" noshade>
 
-<form method="POST" action="import">
+<form method="POST" action="import.php">
 
 <div class="install">
 	

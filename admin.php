@@ -3,23 +3,26 @@
   InStats
   @yasinkuyu, 2016
 */
-
+require 'config.php';
+require "apps/languages/tr-tr.php";
+require "views/layout.php";
+ 
 if (request("method") == "change") :
 
-	$force_login = isset($_POST["ForceLogin"]) ? 1 : 0;
+	$force_login = isset($_POST["forcelogin"]) ? 1 : 0;
 	
-	$strSql = "UPDATE Config "; 
+	$strSql = "UPDATE config "; 
 	$strSql .= "SET C_IMAGELOC = '" . request('ImageLocation') . "'"; 
-	$strSql .= ",   C_FilterIP = '" . request('FilterIPs') . "'";
-	$strSql .= ",   C_ShowLinks = " . request('ShowLinks'); 
-	$strSql .= ",   C_RefThisServer = " . request('CountServer') ;
-	$strSql .= ",   C_StripPathParameters = " . request('PathParameters');
-	$strSql .= ",   C_StripPathProtocol = " . request('PathProtocol');
-	$strSql .= ",   C_StripRefParameters = " . request('RefParameters');
-	$strSql .= ",   C_StripRefProtocol = " . request('RefProtocol');
-	$strSql .= ",   C_StripRefFile = " . request('RefFile');
-	$strSql .= ",   ForceLogin = " . $force_login;
-	$strSql .= ",   Language = '" . request('Language') ."'";
+	$strSql .= ",   c_filterip = '" . request('FilterIPs') . "'";
+	$strSql .= ",   c_showlinks = " . request('ShowLinks'); 
+	$strSql .= ",   c_refthisserver = " . request('CountServer') ;
+	$strSql .= ",   c_strippathparameters = " . request('PathParameters');
+	$strSql .= ",   c_strippathprotocol = " . request('PathProtocol');
+	$strSql .= ",   c_striprefparameters = " . request('RefParameters');
+	$strSql .= ",   c_striprefprotocol = " . request('RefProtocol');
+	$strSql .= ",   c_stripreffile = " . request('RefFile');
+	$strSql .= ",   forcelogin = " . $force_login;
+	$strSql .= ",   language = '" . request('language') ."'";
 	$strSql .= " WHERE ID = 1";
 	
 	global $db;
@@ -52,8 +55,8 @@ if (request("method") == "change") :
 		<td align="middle" class="smallerheader">
 		<?=$lang["update_settings"]; ?>
 		</td>
-		<td align="middle" class="smallerheader"><a href="reports"><?=$lang["return_reports"]; ?></a></td>
-		<td align="middle" class="smallerheader"><a href="admin"><?=$lang["return_admin"]; ?></a></td>
+		<td align="middle" class="smallerheader"><a href="reports.php"><?=$lang["return_reports"]; ?></a></td>
+		<td align="middle" class="smallerheader"><a href="admin.php"><?=$lang["return_admin"]; ?></a></td>
 	</tr>
 </table>
 </body>
@@ -65,7 +68,7 @@ if (request("method") == "change") :
 <br />
 <p class="title"><?=$lang["admin"];?>:</p>
 
-<form action="admin" method="post">
+<form action="admin.php" method="post">
   <table border="1" cellspacing="1" class="titlebg" width="800">
 	<tr>
 		<td align="middle" class="smallerheader"><?=$lang["feature"]; ?></td>
@@ -170,7 +173,7 @@ if (request("method") == "change") :
 		<td align="middle" class="smallerheader"><?=$lang["language"]; ?></td>
 		<td align="middle" class="smallerheader">
 		
-		<select name="Language">
+		<select name="language">
 		<?php foreach(getLanguages() as $slug => $lng) { ?>	
 			<option value="<?=$slug;?>" <?=(LANGUAGE == $slug) ? "selected" : ""; ?>><?=$lng;?></option>
 		<?php }	?>
@@ -200,7 +203,7 @@ if (request("method") == "change") :
 	<tr>
 		<td align="middle" class="smallerheader"><?=$lang["force_login"]; ?></td>
 		<td align="middle" class="smallerheader">
-		<input type="checkbox" class="checkbox" name="ForceLogin" <?=FORCELOGIN ? "checked" : ""; ?>/> 
+		<input type="checkbox" class="checkbox" name="forcelogin" <?=FORCELOGIN ? "checked" : ""; ?>/> 
     	</td>
 		<td align="left" class="smallerheader">	
 		<?=$lang["force_login_desc"]; ?> 
@@ -211,7 +214,7 @@ if (request("method") == "change") :
 			<br />
 			<input type="hidden" value="change" name="method" id="hidden">
 			<input type="submit" value="<?=$lang["save"]; ?>" id="submit" name="submit"> 
-			<button type="button" onclick="location.href='/reports'"><?=$lang["back"]; ?></button>
+			<button type="button" onclick="location.href='/reports.php'"><?=$lang["back"]; ?></button>
 			<br />
 		<td>
 	</tr>
@@ -221,21 +224,21 @@ if (request("method") == "change") :
  
 <p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
-» <?=$lang["view"]; ?> <a href="reportd"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
-» <?=$lang["view"]; ?> <a href="reportpath"><?=$lang["page_views_ap"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="reportref"><?=$lang["report_ref"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="reportpathy"><?=$lang["reportpathy"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="ips"><?=$lang["report_ips"]; ?></a><br />
+» <?=$lang["view"]; ?> <a href="reportd.php"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
+» <?=$lang["view"]; ?> <a href="reportpath.php"><?=$lang["page_views_ap"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="reportref.php"><?=$lang["report_ref"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="reportpathy.php"><?=$lang["reportpathy"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="ips.php"><?=$lang["report_ips"]; ?></a><br />
 </p>
 
 <p class="title"><?=$lang["graphs"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
-» <?=$lang["view"]; ?> <a href="/graphs?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=dom&year=<?=$sYear;?>"><?=$lang["graphs_dom"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=week&year=<?=$sYear;?>"><?=$lang["graphs_week"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=month&year=<?=$sYear;?>"><?=$lang["graphs_month"]; ?></a>.<br />
-» <?=$lang["view"]; ?> <a href="/graphs?type=year&year=<?=$sYear;?>"><?=$lang["graphs_year"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=hour&year=<?=$sYear;?>"><?=$lang["graphs_hour"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=dow&year=<?=$sYear;?>"><?=$lang["graphs_dow"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=dom&year=<?=$sYear;?>"><?=$lang["graphs_dom"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=week&year=<?=$sYear;?>"><?=$lang["graphs_week"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=month&year=<?=$sYear;?>"><?=$lang["graphs_month"]; ?></a>.<br />
+» <?=$lang["view"]; ?> <a href="graphs.php?type=year&year=<?=$sYear;?>"><?=$lang["graphs_year"]; ?></a>.<br />
 </p>
 
 <?php endif; ?>

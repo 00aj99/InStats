@@ -3,6 +3,10 @@
   InStats
   @yasinkuyu, 2016
 */
+require 'config.php';
+require "apps/languages/tr-tr.php";
+require "views/layout.php";
+ 
 ?>
 
 <hr size="1" color="#C0C0C0" noshade>
@@ -14,27 +18,27 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 {
 
 	if (strlen($lHour) > 0){
-	  $sDataSource = "GroupIpsByHourAndDate";
+	  $sDataSource = "groupipsbyhouranddate";
 	} else {
-	  $sDataSource = "GroupIpsByDate";
+	  $sDataSource = "groupipsbydate";
 	}
 
-	$sSQL = 'SELECT * From '. $sDataSource .' Where 1 = 1 ';
+	$sSQL = 'SELECT * From '. $sDataSource .' WHERE 1 = 1 ';
 
 	if (strlen($lYear) > 0){
-	  $sSQL .= ' and YEAR(`Date`) = '. $lYear .'';
+	  $sSQL .= ' and YEAR(`date`) = '. $lYear .'';
 	}
 
 	if (strlen($lMonth) > 0){
-	  $sSQL .= ' and MONTH(`Date`) = '. $lMonth .'';
+	  $sSQL .= ' and MONTH(`date`) = '. $lMonth .'';
 	}
 
 	if (strlen($lDay) > 0){
-	  $sSQL .= ' and DAY(`Date`) = '. $lDay .'';
+	  $sSQL .= ' and DAY(`date`) = '. $lDay .'';
 	}
 
 	if (strlen($lHour) > 0){
-	  $sSQL .= ' and Hour = '. $lHour .' ';
+	  $sSQL .= ' and hour = '. $lHour .' ';
 	}
 
 ?>   
@@ -52,7 +56,7 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 
 		foreach ($ips as $row){
 		
-		   $sLink = "<a href=/ips?ip=" . $row["IP"];
+		   $sLink = "<a href=ips.php?ip=" . $row["ip"];
 		
 		  if (strlen( $lYear ) > 0 ) :
 			 $sLink .= "&year=" . $lYear;
@@ -70,7 +74,7 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 			 $sLink .= "&hour=" . $lHour;
 		  endif;
 		  
-		   $sLink .= '>' . $row["IP"] . '</a>';
+		   $sLink .= '>' . $row["ip"] . '</a>';
 	?>
 	<tr>
 	   <td class="listbg"></td>
@@ -94,7 +98,7 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 ' Sub ShowClickPath
 '
 ' Usage:
-' sIp - The IP to show the click path for.
+' sIp - The ip to show the click path for.
 ' lYear - the numerical year (optional)
 ' lMonth - the numerical month (optional)
 ' lDay - the numerical day (optional)
@@ -105,26 +109,26 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour, $lang )
 function ShowClickPath( $sIp, $lYear, $lMonth, $lDay, $lHour, $lang )   
 {
 	if ( $sIp === "" ) :
-	  echo( "Hata: IP Addres görüntülenemiyor." );
+	  echo( "Hata: ip Addres görüntülenemiyor." );
 	  exit();
 	endif;
 
-	$sSQL = "SELECT Stats.Date, Stats.Time, Stats.IP, Paths.PathName, Refs.RefName FROM Paths RIGHT JOIN (Refs RIGHT JOIN Stats ON Refs.RefID = Stats.RefID) ON Paths.PathID = Stats.PathID Where Stats.IP='" . $sIp . "'";
+	$sSQL = "SELECT stats.date, stats.Time, stats.ip, paths.pathname, refs.refname FROM paths RIGHT JOIN (refs RIGHT JOIN stats ON refs.RefID = stats.RefID) ON paths.PathID = stats.PathID Where stats.ip='" . $sIp . "'";
 
 	if( strlen( $lYear ) > 0  ) :
-	  $sSQL .= ' and YEAR(Stats.Date) = ' . $lYear;
+	  $sSQL .= ' and YEAR(stats.date) = ' . $lYear;
 	endif;
 
 	if( strlen( $lMonth ) > 0 ) :
-	  $sSQL .= ' and MONTH(Stats.Date) = ' . $lMonth;
+	  $sSQL .= ' and MONTH(stats.date) = ' . $lMonth;
 	endif;
 
 	if( strlen( $lDay ) > 0 ) :
-	  $sSQL .= ' and DAY(Stats.Date) = ' . $lDay;
+	  $sSQL .= ' and DAY(stats.date) = ' . $lDay;
 	endif;
 
 	if( strlen( $lHour ) > 0 ) :
-	  $sSQL .= ' and HOUR(Stats.Time) = ' . $lHour;
+	  $sSQL .= ' and HOUR(stats.Time) = ' . $lHour;
 	endif;
  
     $db = Flight::db();
@@ -149,15 +153,15 @@ function ShowClickPath( $sIp, $lYear, $lMonth, $lDay, $lHour, $lang )
 	<?php
 	foreach ( $paths as $row)
 	{ 	
-		if ( BSHOWLINKS && strpos( $row["PathName"], "http://" ) > 0 ) :
-			$sFieldName = '<a href="' . $row["PathName"] . '" target="_blank">"' . $row["PathName"] . '"</a>';
+		if ( BSHOWLINKS && strpos( $row["pathname"], "http://" ) > 0 ) :
+			$sFieldName = '<a href="' . $row["pathname"] . '" target="_blank">"' . $row["pathname"] . '"</a>';
 		else:
-			$sFieldName = $row["PathName"];
+			$sFieldName = $row["pathname"];
 		endif;
 	?>	
 		<tr>
 		   <td class="listbg"></td>
-		   <td class="listbg"><?=$row["Date"];?></td>
+		   <td class="listbg"><?=$row["date"];?></td>
 		   <td class="listbg"><?=$row["Time"];?></td>
 		   <td class="listbg"><?=$sFieldName;?></td>
 		   <td class="listbg"></td>
@@ -199,25 +203,27 @@ $sDay = request("day");
 $sHour = request("hour");
 
 ?>
-» <a href="/reports"><?=$lang["reports"]; ?></a> » <a href="/reportpathy"><?=$lang["yearly"]; ?></a> 
-» <a href="/reportpathm?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
-» <a href="/ips?year=<?=$sYear;?>"><?=$lang["daily"]; ?></a> 
+» <a href="reports.php"><?=$lang["reports"]; ?></a> » <a href="reportpathy.php"><?=$lang["yearly"]; ?></a> 
+» <a href="reportpathm.php?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
+» <a href="ips.php?year=<?=$sYear;?>"><?=$lang["daily"]; ?></a> 
 
 <?php if ( $sIp != "" ) : ?>   
-      » <a href="ips?year=<?=$sYear;?>&month=<?=$sMonth;?>&day=<?=$sDay;?>"><?=$lang["visitor_reports"]; ?></a> » <?=$lang["select"]; ?>
+      » <a href="ips.php?year=<?=$sYear;?>&month=<?=$sMonth;?>&day=<?=$sDay;?>"><?=$lang["visitor_reports"]; ?></a> » <?=$lang["select"]; ?>
 <?php else : ?>   
       » <?=$lang["visitor_reports"]; ?>
 <?php endif; ?>
 
 <br /><br />
 <?php
-   echo( "<b>". $lang["page_views"] ." " . GetDates($lang) . "</b><br /><br />" );
+
+   echo( "<b>". $lang["page_views"] ." " . GetDates($lang) . "</b> <br /><br />" );
 
    if ( $sIp != "" ) :
       ShowClickPath($sIp, $sYear, $sMonth, $sDay, $sHour, $lang);
    else :
       ListIps($sYear, $sMonth, $sDay, $sHour, $lang);
    endif;
+
 ?>
 
 <br />
