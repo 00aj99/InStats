@@ -18,8 +18,8 @@ InStats Wordpress Plugin (https://github.com/yasinkuyu/InStats-WP)
 
     1- Upload the instats folder to your root folder. (ex: yourdomain.com/instats)
     2- create database instats
-    3- import apps/instats.sql
-    4- edit domain and database settings in ./config.php.
+    3- edit domain and database settings in ./config.php.
+    4- manual import apps/instats.sql OR run import.php
     5- add your tracking code to your theme's </body> tags.
     5- check report yourdomain.com/instats/reports.php
 
