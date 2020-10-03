@@ -1,6 +1,6 @@
 # InStats 
 
-    A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
+A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
 
     Basit ve hızlı PHP istatistik scripti.
 
