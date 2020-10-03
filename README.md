@@ -1,9 +1,8 @@
 # InStats 
-A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
- 
-Inspired by StatCounteX 3.1 (ASP)
 
-InStats Wordpress Plugin (https://github.com/yasinkuyu/InStats-WP)
+    A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
+
+    Basit ve hızlı PHP istatistik scripti.
 
 #### Localization Support 
     Translations
@@ -37,3 +36,9 @@ InStats Wordpress Plugin (https://github.com/yasinkuyu/InStats-WP)
 ##### InStats (Insya Statistics)
 
 @yasinkuyu, 2016
+
+#
+
+Inspired by StatCounteX 3.1 (ASP)
+
+InStats Wordpress Plugin (https://github.com/yasinkuyu/InStats-WP)
