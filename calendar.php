@@ -6,8 +6,10 @@
   if ($mMonth === "" ) $mMonth = date("n"); // date("m") : 01, date("n") : 1
   if ($yYear === "" ) $yYear = date("Y"); 
 
-function DisplayCalendar($month,$year, $lang){
+function DisplayCalendar($month,$year){
  
+	global $lang;
+
 	$bgColor = '#ffe4b5';
 
 	$calendar = '<br />';
@@ -72,20 +74,23 @@ function DisplayCalendar($month,$year, $lang){
 }
 
 
-echo DisplayCalendar($mMonth,$yYear, $lang);
-	 DisplaySelectDate($lang);
+echo DisplayCalendar($mMonth,$yYear);
+	 DisplaySelectDate();
 
-function DisplaySelectDate($lang){
+function DisplaySelectDate(){
+	global $lang;
+
 	echo '<br /><form method="get">';
-	MonthCombo($lang);
+	MonthCombo();
 	YearCombo();
 	echo '<input type="submit" value="'. $lang["go"] .'">';
 	echo '</form>';
 }
 
-function MonthCombo($lang){
+function MonthCombo(){
 	
   global $mMonth;
+  global $lang;
 
   $months = $lang["months"];
   $months = explode(",", $months);
@@ -108,6 +113,7 @@ function MonthCombo($lang){
 function YearCombo(){ 
 
   global $mYear;
+  global $lang;
   
   echo '<select name="year">';
   if ($mYear == "" ) $mYear = date("Y");

@@ -72,6 +72,7 @@ $lang["uagents"] = "User Agents";
 $lang["uagentname"] = "User Agent";
 $lang["keywords"] = "Anahtar Kelimeler";
 $lang["keyword"] = "Anahtar Kelime";
+$lang["visitorname"] = "Ziyaretçi";
 
 $lang['view_hourly'] = "Saatlik Rapor";
 $lang['view_hour'] = "Saate Göre";

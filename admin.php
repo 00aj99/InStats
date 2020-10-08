@@ -36,6 +36,9 @@ if (request("method") == "change") :
 		$db->query("DELETE FROM refs");  
 		$db->query("DELETE FROM resolutions");  
 		$db->query("DELETE FROM stats");  
+		$db->query("DELETE FROM keywords");  
+		$db->query("DELETE FROM uagents");  
+		$db->query("DELETE FROM visitors");  
 		
 		echo '<script type="text/javascript">alert("'. $lang["clear_data_success"]. '"); </script>';
 	}

@@ -1,7 +1,8 @@
 <?php
+
 	/*
-	InStats
-	@yasinkuyu, 2016
+		InStats
+		@yasinkuyu, 2016
 	*/
 
 	require 'config.php';
@@ -80,7 +81,7 @@
 		}
 	}
 	
-	$sToday = date("Y") . "-" . date("n") . "-" . date("d");
+	$sToday = date("Y") . "-" . date("m") . "-" . date("d");
 	$dtYesterday =  date('Y-m-d', strtotime(' - 1 days'));
 	$sYesterday = $dtYesterday; //date("Y-m-d", $dtYesterday);
 	
@@ -88,32 +89,31 @@
 	$sSQL = $db->query("SELECT COUNT(statid) AS total FROM stats")->fetch();
 	$lPageViewsTotal = $sSQL["total"];
 
-	$sSQL = $db->query("SELECT COUNT(statid) AS total FROM stats WHERE date = '" . $sToday . "'")->fetch();
+	$sSQL = $db->query("SELECT COUNT(statid) AS total FROM stats WHERE date = '$sToday'")->fetch();
 	$lPageViewsToday = $sSQL["total"];
 
-	$sSQL = $db->query("SELECT COUNT(statid) AS total FROM stats WHERE date = '" . $sYesterday . "'")->fetch();
+	$sSQL = $db->query("SELECT COUNT(statid) AS total FROM stats WHERE date = '$sYesterday'")->fetch();
 	$lPageViewsYesterday = $sSQL["total"];
 
 	$sSQL = $db->query("SELECT COUNT(ip) AS total FROM stats GROUP BY ip")->fetch();
 	$lVisitorsTotal = $sSQL["total"];
 
-	$sSQL = $db->query("SELECT COUNT(ip) AS total FROM stats WHERE date = '" . $sToday . "' GROUP BY ip")->fetch();
-	$lVisitorsToday = $sSQL["total"];
+	$sSQL = $db->prepare("SELECT COUNT(ip) AS total FROM stats WHERE date = '$sToday' GROUP BY ip");
+	$sSQL->execute();
+	$lVisitorsToday = $sSQL->rowCount();
 
-	$sSQL = $db->query("SELECT COUNT(ip) AS total FROM stats WHERE date = '" . $sYesterday . "' GROUP BY ip")->fetch();
-	$lVisitorsYesterday = $sSQL["total"];
+	$sSQL = $db->prepare("SELECT COUNT(ip) AS total FROM stats WHERE date = '$sYesterday' GROUP BY ip");
+	$sSQL->execute();
+	$lVisitorsYesterday = $sSQL->rowCount();
 
 	$sSQL = $db->query("SELECT * FROM toppageviewsperday LIMIT 1")->fetch();
-	$lVisitorsYesterday = $sSQL["total"];
-
-	$sSQL = $db->query("SELECT * FROM toppageviewsperday  LIMIT 1")->fetch();
 	$lTopViews = $sSQL["total"];
 	$data["stopviewsday"]  = $sSQL["date"];
 
-	$sSQL = $db->query("SELECT * FROM topipsperday  LIMIT 1")->fetch();
+	$sSQL = $db->query("SELECT * FROM topipsperday LIMIT 1")->fetch();
 	$lTopVisitors = $sSQL["total"];
 	$data["stopvisitorsday"] = $sSQL["date"];
-
+	
 	$data["spageviewstoday"] = number_format( $lPageViewsToday, 0);
 	$data["spageviewsyesterday"] = number_format( $lPageViewsYesterday, 0);
 	$data["spageviewstotal"] = number_format( $lPageViewsTotal, 0);
@@ -126,14 +126,9 @@
 	$data["stopvisitors"] = number_format( $lTopVisitors, 0 );
   
 	extract($data, EXTR_SKIP);
-?>
 
-<?php
-/*
-  InStats
-  @yasinkuyu, 2016
-*/
 ?>
+ 
 <hr size="1" color="#C0C0C0" noshade>
 <p class="title"><?=$lang['summary'];?></p>
 <table border="0" cellspacing="0" class="titlebg summary">
@@ -143,7 +138,7 @@
 		<td align="right" class="smallerheader"><?=$lang["visitors"]; ?></td>
 	</tr>
 	<tr bgcolor="#fdf5e6">
-		<td><a href="reportpathdd.php?year=<?= date("Y"); ?>&month=<?= date("n"); ?>&day=<?= date("d"); ?>"><?=$lang["today"]; ?></a></td>
+		<td><a href="reportpathdd.php?year=<?= date("Y"); ?>&month=<?= date("m"); ?>&day=<?= date("d"); ?>"><?=$lang["today"]; ?></a></td>
 		<td align="right"><?= $spageviewstoday; ?></td>
 		<td align="right"><?= $svisitorstoday; ?></td>
 	</tr>
@@ -176,6 +171,7 @@
 
 <p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>
 <p class="smallertext">
+» <?=$lang["view"]; ?> <a href="reportall.php"><?= "Tüm raporlar"; ?></a> <br />
 » <?=$lang["view"]; ?> <a href="reportd.php"><?=$lang["detail_reports"]; ?></a> <?=$lang["detail_reports_text"]; ?><br />
 » <?=$lang["view"]; ?> <a href="reportpath.php"><?=$lang["page_views_ap"]; ?></a><br />
 » <?=$lang["view"]; ?> <a href="reportref.php"><?=$lang["report_ref"]; ?></a><br />

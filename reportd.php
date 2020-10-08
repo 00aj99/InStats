@@ -8,9 +8,10 @@ require 'config.php';
 require "apps/languages/tr-tr.php";
 require "views/layout.php";
  
-function SQLTable($sTitle, $sSQL, $lang)
+function SQLTable($sTitle, $sSQL)
 {
 	global $db;
+	global $lang;
 	$result = $db->query($sSQL);
 	 
 ?>
@@ -18,7 +19,7 @@ function SQLTable($sTitle, $sSQL, $lang)
 			<tr>
 				<td class="smallerheader titlebg" width="10">»</td>
 				<td class="smallerheader titlebg" ><?=$sTitle?></td>
-				<td class="smallheader" class="titlebg" width="10"></td>
+				<td class="smallerheader titlebg" width="10"></td>
 			</tr>
 			<tr>
 				<td class="listbg" width="10"></td>
@@ -80,14 +81,15 @@ function SQLTable($sTitle, $sSQL, $lang)
 <?php } ?>
 
 <?php
-	SQLTable($lang["top_ten_page"], "SELECT pathname, total FROM paths ORDER BY total DESC LIMIT 10", $lang);
-	SQLTable($lang["top_ten_ref"], "SELECT refname, total FROM refs ORDER BY total DESC LIMIT 10", $lang);
-	SQLTable($lang["browsers"], "SELECT browsername, total FROM browsers ORDER BY total DESC", $lang);
-	SQLTable($lang["resolutions"], "SELECT resname, total FROM resolutions ORDER BY total DESC", $lang);
-	SQLTable($lang["colors"], "SELECT colorname, total FROM colors ORDER BY total DESC", $lang);
-	SQLTable($lang["oses"], "SELECT osname, total FROM oses ORDER BY total DESC", $lang);
-	SQLTable($lang["uagents"], "SELECT uagentname, total FROM uagents ORDER BY total DESC", $lang);
-	SQLTable($lang["keywords"], "SELECT keyword, total FROM keywords ORDER BY total DESC", $lang);
+	SQLTable($lang["top_ten_page"], "SELECT pathname, total FROM paths ORDER BY total DESC LIMIT 10");
+	SQLTable($lang["top_ten_ref"], "SELECT refname, total FROM refs ORDER BY total DESC LIMIT 10");
+	SQLTable($lang["browsers"], "SELECT browsername, total FROM browsers ORDER BY total DESC");
+	SQLTable($lang["resolutions"], "SELECT resname, total FROM resolutions ORDER BY total DESC");
+	SQLTable($lang["colors"], "SELECT colorname, total FROM colors ORDER BY total DESC");
+	SQLTable($lang["oses"], "SELECT osname, total FROM oses ORDER BY total DESC");
+	SQLTable($lang["uagents"], "SELECT uagentname, total FROM uagents ORDER BY total DESC");
+	SQLTable($lang["keywords"], "SELECT keyword, total FROM keywords ORDER BY total DESC");
+	SQLTable($lang["visitors"], "SELECT visitorname, total FROM visitors ORDER BY total DESC");
 ?>
 
 <p class="title"><?=$lang["detail_stats"]; ?> (<?=$lang["all_data"]; ?>)</p>

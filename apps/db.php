@@ -69,6 +69,11 @@
 
 	}
 
+	function GetIdVisitor($sName){
+		return read_update("visitors","visitorname","visitorid", $sName);
+
+	}
+
 	function GetIdRes($sName){
 		//Get ResID
 		return read_update("resolutions","resname","ResID", $sName);

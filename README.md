@@ -2,7 +2,7 @@
 
 A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/yasinkuyu)
 
-    Basit ve hızlı PHP istatistik scripti.
+    Hızlı ve basit PHP istatistik scripti.
 
 #### Localization Support 
     Translations
@@ -18,7 +18,7 @@ A fast, very simple statistics script for PHP [@yasinkuyu](https://twitter.com/y
     1- Upload the instats folder to your root folder. (ex: yourdomain.com/instats)
     2- create database instats
     3- edit domain and database settings in ./config.php.
-    4- manual import apps/instats.sql OR run install.php
+    4- manual import ./apps/instats.sql OR run ./install.php
     5- add your tracking code to your theme's </body> tags.
     5- check report yourdomain.com/instats/reports.php
 

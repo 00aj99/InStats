@@ -15,8 +15,10 @@ require "views/layout.php";
 // lMonth - a 0-based one- or two-digit month number.
 // lDay - a 1-based one- or two- digit day number.
  
-function GraphHours( $sViewType, $lYear, $lMonth, $lDay , $lang)   
+function GraphHours( $sViewType, $lYear, $lMonth, $lDay )   
 {
+	global $lang;
+
 	if ($sViewType === "Views") {
 	  
 	  $sSQL = "SELECT stats.date, stats.ip, HOUR( stats.Time ) As hour, COUNT(stats.ip) AS total ";
@@ -610,7 +612,7 @@ function GraphMonth( $sViewType, $lYear, $lang )
 // Usage:
 // sViewType - The type of content to display. Values: "Visits" or "Views".
  
-function GraphYear( $sViewType , $lang) 
+function GraphYear( $sViewType) 
 {
 	if ($sViewType == "Views" ) {
 		$sSQL = "SELECT stats.date, stats.ip, YEAR( stats.date ) as Year, Count(stats.ip) AS total ";
@@ -713,32 +715,33 @@ function FormatPercent($percent){
 	return '%' . number_format( $percent * 100, 2 );
 }
 
-function GetDates($lang)
+function GetDates()
 {
-   $return = "";
-	
-   if( strlen(request("month")) > 0 ) :  
-      
-	  $return = date('F', mktime(0, 0, 0, request("month"), 10));
-      
-      if( strlen(request("day")) > 0 ) :   
-         $return = $return . " " . request("day");
-      endif;
-      
-      $return = $return . ", ";
-   endif;
+	global $lang;
+  
+	$return = "";
 
-   if( strlen(request("year")) > 0 ) :  
-      $return = $return . request("year");
-   endif;
-   
-   if( strlen($return) === 0 ) :  
-      return $lang["all_data"];
-   endif;
-   
-   return $return;
+	if( strlen(request("month")) > 0 ) :  
+		
+		$return = date('F', mktime(0, 0, 0, request("month"), 10));
+		
+		if( strlen(request("day")) > 0 ) :   
+			$return = $return . " " . request("day");
+		endif;
+		
+		$return = $return . ", ";
+	endif;
+
+	if( strlen(request("year")) > 0 ) :  
+		$return = $return . request("year");
+	endif;
+
+	if( strlen($return) === 0 ) :  
+		return $lang["all_data"];
+	endif;
+
+	return $return;
 }
-
  
 ?>
 
@@ -746,7 +749,7 @@ function GetDates($lang)
 <br />
 <?php
 
-   $sBackCode = "<br /><br /><b>". $lang["data_display"] ." " . GetDates($lang) . "</b><br /><br />";
+   $sBackCode = "<br /><br /><b>". $lang["data_display"] ." " . GetDates() . "</b><br /><br />";
 
    $stype = request( "type" );
    
@@ -786,8 +789,8 @@ function GetDates($lang)
 	case "year":
          echo ( $lang["view_yearly"] . $sBackCode );
         
-         GraphYear ( "Views", $lang );
-         GraphYear ( "Visits" , $lang);
+         GraphYear ( "Views" );
+         GraphYear ( "Visits");
 		break;
  
    }  

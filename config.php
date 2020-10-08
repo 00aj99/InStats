@@ -27,7 +27,7 @@ date_default_timezone_set('Europe/Istanbul');
 if (!isset($_SERVER['CI_ENV'])) {
   $_SERVER['CI_ENV'] = 'production';
 }
-  
+
 switch (isset($_SERVER['CI_ENV'])) {
   case 'development':
 

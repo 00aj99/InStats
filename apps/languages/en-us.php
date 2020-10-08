@@ -72,6 +72,7 @@ $lang["uagents"] = "User Agents";
 $lang["uagentname"] = "User Agent";
 $lang["keywords"] = "Keywords";
 $lang["keyword"] = "Keyword";
+$lang["visitorname"] = "Visitor";
 
 $lang['view_hourly'] = "Hourly Report";
 $lang['view_hour'] = "by Hour";

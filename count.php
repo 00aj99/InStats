@@ -53,6 +53,15 @@
 	if (BSTRIPREFPROTOCOL) $sReferer = StripProtocol($sReferer);
 	
 	if ($sPath == "") $sPath = "/";
+
+	// zamanı unique id olarak tanımla
+	$sVisitor = strtotime('now');
+
+	if(isset($_COOKIE["insvstr"]) && $_COOKIE["insvstr"] != ""){
+		$sVisitor = $_COOKIE["insvstr"];
+	}else{
+		setcookie("insvstr", $sVisitor, strtotime( '+360 days' ));
+	}
 	
 	//Detect os
 	$sOS = getOS();
@@ -70,11 +79,12 @@
 	$lIdKey		= GetIdKey($sKeyword);
 	$lIdLang    = GetIdLang($sLang);
 	$lIdUAgent  = GetIdUagent($sUAgent);
+	$lIdVisitor = GetIdVisitor($sVisitor);
 
 	global $db;
 			
 	$db->query("
-	INSERT INTO stats (osid,colorid,browserid,pathid,refid,resid,keyid,langid,uagentid,date,time,ip)
+	INSERT INTO stats (osid,colorid,browserid,pathid,refid,resid,keyid,langid,uagentid,visitorid,date,time,ip)
 	VALUES
 		(
 			$lIdOS,
@@ -86,6 +96,7 @@
 			$lIdKey,
 			$lIdLang,
 			$lIdUAgent,
+			$lIdVisitor,
 			CURDATE(),
 			CURTIME(),
 			'$sIP'

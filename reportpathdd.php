@@ -18,9 +18,10 @@ require "views/layout.php";
 
 <?php
 
-function SQLTable($sTitle, $sSQL, $lang) {
+function SQLTable($sTitle, $sSQL) {
  
 	global $db;
+	global $lang;
 	$result = $db->query($sSQL);
 	
 ?>
@@ -94,7 +95,7 @@ function SQLTable($sTitle, $sSQL, $lang) {
 	$sMonth = request("month");
 	$sDay = request("day");
 	
-	$sDate = $sYear . "." . $sMonth . "." . $sDay; 
+	$sDate = $sYear . "-" . $sMonth . "-" . $sDay; 
 	
 	$months = explode(",", $lang['months']);
 	$mName = $sMonth > 0 ? $months[$sMonth] : "";
@@ -111,24 +112,34 @@ function SQLTable($sTitle, $sSQL, $lang) {
 	$rLimit = "";
 
     if (request("pall") != "yes") $pLimit = " LIMIT 10";
-    SQLTable('<a href="reportpathdd.php?' . $qstring . '">'. $lang["top_ten_page"] . '</a> <a href="reportpathdd.php?' . $qstring . '&pall=yes">('. $lang['all_pages'] .')</a>', 'SELECT paths.pathname, COUNT(paths.pathname) AS total FROM stats LEFT JOIN paths ON (stats.PathID=paths.PathID) WHERE stats.date = \'' . $sDate . '\'  GROUP BY paths.pathname ORDER BY COUNT(paths.pathname) DESC '. $pLimit, $lang);
+    SQLTable('<a href="reportpathdd.php?' . $qstring . '">'. $lang["top_ten_page"] . '</a> <a href="reportpathdd.php?' . $qstring . '&pall=yes">('. $lang['all_pages'] .')</a>', "SELECT paths.pathname, COUNT(paths.pathname) AS total FROM stats LEFT JOIN paths ON (stats.PathID=paths.PathID) WHERE stats.date = '$sDate'  GROUP BY paths.pathname ORDER BY COUNT(paths.pathname) DESC ". $pLimit);
     
 	if (request("rall") != "yes") $rLimit = "LIMIT 10";
-    SQLTable('<a href="reportpathdd.php?' . $qstring . '">'. $lang["graphs_hour"] .'</a> <a href="reportpathdd.php?' . $qstring . '&rall=yes">('. $lang['all_referers'] .')</a>', 'SELECT refname, COUNT(refname) AS total FROM stats LEFT JOIN refs ON (stats.RefID=refs.RefID) WHERE date = \'' . $sDate . '\' GROUP BY refname ORDER BY COUNT(refname) DESC '. $rLimit, $lang);
+    SQLTable('<a href="reportpathdd.php?' . $qstring . '">'. $lang["graphs_hour"] .'</a> <a href="reportpathdd.php?' . $qstring . '&rall=yes">('. $lang['all_referers'] .')</a>', "SELECT refname, COUNT(refname) AS total FROM stats LEFT JOIN refs ON (stats.RefID=refs.RefID) WHERE date = '$sDate' GROUP BY refname ORDER BY COUNT(refname) DESC ". $rLimit);
 
-	SQLTable($lang["browsers"], 'SELECT browsername, COUNT(browsername) AS total FROM stats LEFT JOIN browsers ON (stats.browserid=browsers.browserid) WHERE date = \'' . $sDate . '\' GROUP BY browsername ORDER BY COUNT(browsername) DESC', $lang);
+	SQLTable($lang["browsers"], "SELECT browsername, COUNT(browsername) AS total FROM stats 
+								  		LEFT JOIN browsers ON (stats.browserid=browsers.browserid) WHERE date = '$sDate' GROUP BY browsername ORDER BY COUNT(browsername) DESC");
 
-    SQLTable($lang["resolutions"], 'SELECT resname, COUNT(resname) AS total FROM stats LEFT JOIN resolutions ON (stats.ResID=resolutions.ResID) WHERE date =  \'' . $sDate . '\'  GROUP BY resname ORDER BY COUNT(resname) DESC', $lang);
+    SQLTable($lang["resolutions"], "SELECT resname, COUNT(resname) AS total FROM stats 
+										LEFT JOIN resolutions ON (stats.ResID=resolutions.ResID) WHERE date = '$sDate'  GROUP BY resname ORDER BY COUNT(resname) DESC");
 
-	SQLTable($lang["colors"], 'SELECT colorname, COUNT(colorname) AS total FROM stats LEFT JOIN colors ON (stats.colorid=colors.colorid) WHERE date = \'' . $sDate . '\'  GROUP BY colorname ORDER BY COUNT(colorname) DESC', $lang);
+	SQLTable($lang["colors"], "SELECT colorname, COUNT(colorname) AS total FROM stats 
+										LEFT JOIN colors ON (stats.colorid=colors.colorid) WHERE date = '$sDate' GROUP BY colorname ORDER BY COUNT(colorname) DESC");
 
-    SQLTable($lang["oses"], 'SELECT osname, COUNT(osname) AS total FROM stats LEFT JOIN oses ON (stats.osid=oses.osid) WHERE date = \'' . $sDate . '\' GROUP BY osname ORDER BY COUNT(osname) DESC', $lang);
+    SQLTable($lang["oses"], "SELECT osname, COUNT(osname) AS total FROM stats 
+										LEFT JOIN oses ON (stats.osid=oses.osid) WHERE date = '$sDate' GROUP BY osname ORDER BY COUNT(osname) DESC");
 	
-	SQLTable($lang["langs"], 'SELECT langname, COUNT(langname) AS total FROM stats LEFT JOIN langs ON (stats.langid=langs.langid) WHERE date = \'' . $sDate . '\' GROUP BY langname ORDER BY COUNT(langname) DESC', $lang);
+	SQLTable($lang["langs"], "SELECT langname, COUNT(langname) AS total FROM stats 
+										LEFT JOIN langs ON (stats.langid=langs.langid) WHERE date = '$sDate' GROUP BY langname ORDER BY COUNT(langname) DESC");
 	
-	SQLTable($lang["uagents"], 'SELECT uagentname, COUNT(uagentname) AS total FROM stats LEFT JOIN uagents ON (stats.uagentid=uagents.uagentid) WHERE date = \'' . $sDate . '\' GROUP BY uagentname ORDER BY COUNT(uagentname) DESC', $lang);
+	SQLTable($lang["uagents"], "SELECT uagentname, COUNT(uagentname) AS total FROM stats 
+										LEFT JOIN uagents ON (stats.uagentid=uagents.uagentid) WHERE date ='$sDate' GROUP BY uagentname ORDER BY COUNT(uagentname) DESC");
 	
-	SQLTable($lang["keywords"], 'SELECT keyword, COUNT(keyword) AS total FROM stats LEFT JOIN keywords ON (stats.keyid=keywords.keyid) WHERE date = \'' . $sDate . '\' GROUP BY keyword ORDER BY COUNT(keyword) DESC', $lang);
+	SQLTable($lang["keywords"], "SELECT keyword, COUNT(keyword) AS total FROM stats 
+										LEFT JOIN keywords ON (stats.keyid=keywords.keyid) WHERE date = '$sDate' GROUP BY keyword ORDER BY COUNT(keyword) DESC");
+	
+	SQLTable($lang["visitors"], "SELECT visitorname, COUNT(visitorname) AS total FROM stats 
+										LEFT JOIN visitors ON (stats.visitorid=visitors.visitorid) WHERE date = '$sDate' GROUP BY visitorname ORDER BY COUNT(visitorname) DESC");
  
 ?>
 
@@ -143,6 +154,4 @@ function SQLTable($sTitle, $sSQL, $lang) {
 </p>
  
 
-<?php
-	require "views/footer.php";
-?>
+<?php require "views/footer.php"; ?>

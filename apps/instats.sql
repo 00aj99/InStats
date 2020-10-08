@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version 5.5.5-10.1.9-MariaDB)
-# Date: 2020-10-03 14:45:14
+# Date: 2020-10-08 13:27:22
 # Generator: MySQL-Front 6.0  (Build 2.20)
 
 
@@ -14,7 +14,7 @@ CREATE TABLE `browsers` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`browserid`),
   UNIQUE KEY `browsername` (`browsername`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "browsers"
@@ -32,7 +32,7 @@ CREATE TABLE `colors` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`colorid`),
   UNIQUE KEY `colorname` (`colorname`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "colors"
@@ -84,7 +84,6 @@ CREATE TABLE `keywords` (
 # Data for table "keywords"
 #
 
-INSERT INTO `keywords` VALUES (1,'',72);
 
 #
 # Structure for table "langs"
@@ -102,7 +101,7 @@ CREATE TABLE `langs` (
 # Data for table "langs"
 #
 
-INSERT INTO `langs` VALUES (1,'tr-TR',12);
+INSERT INTO `langs` VALUES (1,'tr-TR',349);
 
 #
 # Structure for table "oses"
@@ -115,7 +114,7 @@ CREATE TABLE `oses` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`osid`),
   UNIQUE KEY `osname` (`osname`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "oses"
@@ -133,7 +132,7 @@ CREATE TABLE `paths` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`pathid`),
   UNIQUE KEY `pathname` (`pathname`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "paths"
@@ -151,7 +150,7 @@ CREATE TABLE `refs` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`refid`),
   UNIQUE KEY `referencename` (`refname`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "refs"
@@ -169,7 +168,7 @@ CREATE TABLE `resolutions` (
   `total` int(10) DEFAULT NULL,
   PRIMARY KEY (`resid`),
   UNIQUE KEY `resname` (`resname`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "resolutions"
@@ -195,8 +194,9 @@ CREATE TABLE `stats` (
   `refid` int(10) NOT NULL DEFAULT '0',
   `langid` int(10) DEFAULT '0',
   `uagentid` int(10) DEFAULT '0',
+  `visitorid` int(10) DEFAULT '0',
   PRIMARY KEY (`statid`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=406 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 #
 # Data for table "stats"
@@ -213,13 +213,12 @@ CREATE TABLE `uagents` (
   `uagentname` varchar(255) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
   PRIMARY KEY (`uagentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "uagents"
 #
 
-INSERT INTO `uagents` VALUES (1,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36',7);
 
 #
 # Structure for table "users"
@@ -236,6 +235,23 @@ CREATE TABLE `users` (
 
 #
 # Data for table "users"
+#
+
+
+#
+# Structure for table "visitors"
+#
+
+DROP TABLE IF EXISTS `visitors`;
+CREATE TABLE `visitors` (
+  `visitorid` int(11) NOT NULL AUTO_INCREMENT,
+  `visitorname` varchar(30) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`visitorid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "visitors"
 #
 
 

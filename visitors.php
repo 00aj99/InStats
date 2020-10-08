@@ -7,13 +7,6 @@ require 'config.php';
 require "apps/languages/tr-tr.php";
 require "views/layout.php";
  
-
-$sIp = request("ip");
-$sYear = request("year");
-$sMonth = request("month");
-$sDay = request("day");
-$sHour = request("hour");
-
 ?>
 
 <hr size="1" color="#C0C0C0" noshade>
@@ -21,9 +14,8 @@ $sHour = request("hour");
  
 <?php
 
-function ListIps( $lYear, $lMonth, $lDay, $lHour)   
+function ListIps( $lYear, $lMonth, $lDay, $lHour )   
 {
-	global $lang;
 
 	if (strlen($lHour) > 0){
 	  $sDataSource = "groupipsbyhouranddate";
@@ -64,23 +56,7 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour)
 
 		foreach ($ips as $row){
 		
-		   $sLink = "<a href=ips.php?ip=" . $row["ip"];
-		
-		  if (strlen( $lYear ) > 0 ) :
-			 $sLink .= "&year=" . $lYear;
-		  endif;
-		  
-		  if (strlen( $lMonth ) > 0 ) :
-			 $sLink .= "&month=" . $lMonth;
-		  endif;
-		  
-		  if (strlen( $lDay ) > 0 ) :
-			 $sLink .= "&day=" . $lDay;
-		  endif;
-		  
-		  if (strlen( $lHour ) > 0 ) :
-			 $sLink .= "&hour=" . $lHour;
-		  endif;
+		   $sLink = "<a href=visitors.php?visitorname=" . $row["visitorname"];
 		  
 		   $sLink .= '>' . $row["ip"] . '</a>';
 	?>
@@ -100,40 +76,39 @@ function ListIps( $lYear, $lMonth, $lDay, $lHour)
 <?php } ?>
 	
 <?php
+ 
+/*
+'
+' Sub ShowClickPath
+'
+' Usage:
+' sIp - The ip to show the click path for.
+' lYear - the numerical year (optional)
+' lMonth - the numerical month (optional)
+' lDay - the numerical day (optional)
+' lHour - the numerical hour (optional)
+'
+*/
 
 function ShowClickPath( $sIp, $lYear, $lMonth, $lDay, $lHour )   
 {
-	global $lang;
-
-	$sSQL = "SELECT stats.date, stats.Time, stats.ip, paths.pathname, refs.refname FROM paths 
-					RIGHT JOIN (refs RIGHT JOIN stats ON refs.RefID = stats.RefID) ON paths.PathID = stats.PathID Where stats.ip='$sIp'";
-
-	if( strlen( $lYear ) > 0  ) :
-	  $sSQL .= ' and YEAR(stats.date) = ' . $lYear;
+	if ( $sIp === "" ) :
+	  echo( "Hata: ip Addres görüntülenemiyor." );
+	  exit();
 	endif;
 
-	if( strlen( $lMonth ) > 0 ) :
-	  $sSQL .= ' and MONTH(stats.date) = ' . $lMonth;
-	endif;
-
-	if( strlen( $lDay ) > 0 ) :
-	  $sSQL .= ' and DAY(stats.date) = ' . $lDay;
-	endif;
-
-	if( strlen( $lHour ) > 0 ) :
-	  $sSQL .= ' and HOUR(stats.Time) = ' . $lHour;
-	endif;
+	$sSQL = "SELECT stats.date, stats.Time, stats.ip, paths.pathname, refs.refname FROM paths RIGHT JOIN (refs RIGHT JOIN stats ON refs.RefID = stats.RefID) ON paths.PathID = stats.PathID Where stats.ip='" . $sIp . "'";
  
     $db = Flight::db();
 			
 	$paths = $db->query($sSQL)->fetchAll();
 	
-?>  
+?>   
 
 <table cellspacing="0" cellpadding="0" class="titlebg list">
 	<tr>
 	   <td class="titlebg" width="10">»</td>
-	   <td colspan="3" class="smallerheader titlebg"><?= "Gezdiği sayfalar"; ?>: <?=$lang["path"]; ?> <?=$sIp;?></td>
+	   <td colspan="3" class="smallerheader titlebg"><?=$lang["status"]; ?>: <?=$lang["path"]; ?> <?=$sIp;?></td>
 	   <td class="titlebg" width="10"></td>
 	</tr>
 	<tr>
@@ -165,39 +140,42 @@ function ShowClickPath( $sIp, $lYear, $lMonth, $lDay, $lHour )
 
 function GetDates()
 {
+   $return = "";
+	
+   if( strlen(request("month")) > 0 ) :  
+      
+	  $return = date('F', mktime(0, 0, 0, request("month"), 10));
+      
+      if( strlen(request("day")) > 0 ) :   
+         $return = $return . " " . request("day");
+      endif;
+      
+      $return = $return . ", ";
+   endif;
 
-	global $lang;
-
-	$return = "";
-
-	if( strlen(request("month")) > 0 ) :  
-		$return = date('F', mktime(0, 0, 0, request("month"), 10));
-		
-		if( strlen(request("day")) > 0 ) :   
-			$return = $return . " " . request("day");
-		endif;
-		
-		$return = $return . ", ";
-	endif;
-
-	if( strlen(request("year")) > 0 ) :  
-		$return = $return . request("year");
-	endif;
-
-	if( strlen($return) === 0 ) :  
-		return $lang["all_data"];
-	endif;
-
-	return $return;
+   if( strlen(request("year")) > 0 ) :  
+      $return = $return . request("year");
+   endif;
+   
+   if( strlen($return) === 0 ) :  
+      return $lang["all_data"];
+   endif;
+   
+   return $return;
 }
+
+$sIp = request("ip");
+$sYear = request("year");
+$sMonth = request("month");
+$sDay = request("day");
+$sHour = request("hour");
 
 ?>
 » <a href="reports.php"><?=$lang["reports"]; ?></a> » <a href="reportpathy.php"><?=$lang["yearly"]; ?></a> 
-» <a href="reportpathm.php?year=<?=$sYear;?>"><?=$lang["monthly"]; ?></a> 
-» <a href="ips.php?year=<?=$sYear;?>"><?=$lang["daily"]; ?></a> 
+» <a href="visitors.php?year=<?=$sYear;?>"><?=$lang["daily"]; ?></a> 
 
 <?php if ( $sIp != "" ) : ?>   
-      » <a href="ips.php?year=<?=$sYear;?>&month=<?=$sMonth;?>&day=<?=$sDay;?>"><?=$lang["visitor_reports"]; ?></a> » <?=$lang["select"]; ?>
+      » <a href="visitors.php?year=<?=$sYear;?>&month=<?=$sMonth;?>&day=<?=$sDay;?>"><?=$lang["visitor_reports"]; ?></a> » <?=$lang["select"]; ?>
 <?php else : ?>   
       » <?=$lang["visitor_reports"]; ?>
 <?php endif; ?>
@@ -205,7 +183,7 @@ function GetDates()
 <br /><br />
 <?php
 
-   echo( "<b>". $lang["page_views"] ." " . GetDates() . "</b> <br /><br />" );
+   echo( "<b>". $lang["page_views"] ."</b> <br /><br />" );
 
    if ( $sIp != "" ) :
       ShowClickPath($sIp, $sYear, $sMonth, $sDay, $sHour);
