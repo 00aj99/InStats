@@ -26,7 +26,8 @@ $result = $db->query("
 				( SELECT colorname FROM colors WHERE stats.colorid = colors.colorid ) AS colorname,
 				( SELECT resname FROM resolutions WHERE stats.resid = resolutions.resid ) AS resname,
 				( SELECT langname FROM langs WHERE stats.langid = langs.langid ) AS langname,
-				( SELECT uagentname FROM uagents WHERE stats.uagentid = uagents.uagentid ) AS uagentname
+				( SELECT uagentname FROM uagents WHERE stats.uagentid = uagents.uagentid ) AS uagentname,
+				( SELECT statusname FROM statuscodes WHERE stats.statusid = statuscodes.statusid ) AS statusname
 			
 			FROM stats ORDER BY statid DESC 
 
@@ -50,6 +51,7 @@ $result = $db->query("
 		<td class="smallerheader titlebg">colorname</td>
 		<td class="smallerheader titlebg">resname</td>
 		<td class="smallerheader titlebg">langname</td>
+		<td class="smallerheader titlebg">statusname</td>
 		<td class="smallerheader titlebg">uagentname</td>
 	</tr>
 	<?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) : ?>
@@ -67,6 +69,7 @@ $result = $db->query("
 		<td class="listbg"><?= $row['colorname']; ?></td>
 		<td class="listbg"><?= $row['resname']; ?></td>
 		<td class="listbg"><?= $row['langname']; ?></td>
+		<td class="listbg"><?= $row['statusname']; ?></td>
 		<td class="listbg"><?= $row['uagentname']; ?></td>
 	</tr>
 	<?php endwhile; ?>
