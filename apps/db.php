@@ -80,6 +80,10 @@
 
 	}
 
+	function GetIdStatus($sName){
+		return read_update("statuscodes","statusname","statusid", $sName);
+	}
+
 	function StripParameter($sPath){
 		$sPath = preg_replace('/\\?.*/', '', $sPath);
 		return $sPath;

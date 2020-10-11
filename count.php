@@ -16,6 +16,7 @@
 	$sLang = request("l");	
 	$sUAgent = request("ua") != "" ? request("ua") : $_SERVER['HTTP_USER_AGENT'];	
 	$sKeyword = request("q") != "" ? request("q") : ParseKeyword($sReferer);	
+	$sStatusCode = http_response_code();
 	
 	$sIP = $_SERVER['REMOTE_ADDR'];
 	 
@@ -80,6 +81,7 @@
 	$lIdLang    = GetIdLang($sLang);
 	$lIdUAgent  = GetIdUagent($sUAgent);
 	$lIdVisitor = GetIdVisitor($sVisitor);
+	$lIdStatus  = GetIdStatus($sStatusCode);
 
 	global $db;
 			
@@ -97,6 +99,7 @@
 			$lIdLang,
 			$lIdUAgent,
 			$lIdVisitor,
+			$lIdStatus,
 			CURDATE(),
 			CURTIME(),
 			'$sIP'
