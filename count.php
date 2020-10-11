@@ -86,7 +86,7 @@
 	global $db;
 			
 	$db->query("
-	INSERT INTO stats (osid,colorid,browserid,pathid,refid,resid,keyid,langid,uagentid,visitorid,date,time,ip)
+	INSERT INTO stats (osid,colorid,browserid,pathid,refid,resid,keyid,langid,uagentid,visitorid,statusid,date,time,ip)
 	VALUES
 		(
 			$lIdOS,
